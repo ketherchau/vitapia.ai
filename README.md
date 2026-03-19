@@ -7,7 +7,7 @@
 Vitapia.ai is an enterprise-grade Multi-Agent AI simulation platform built to replace slow, expensive, and biased traditional market research. By ingesting raw public census data, Vitapia spawns thousands of high-fidelity "Virtual Citizens" to test scenarios, pricing, and products at scale—delivering population-level insights in hours instead of months.
 
 ## 🚀 The Digital Twin of Hong Kong
-This repository houses the interactive frontend for the Vitapia.ai platform, built for the **Cyberport Creative Micro Fund (CCMF)** application.
+This repository houses the interactive frontend for the Vitapia.ai platform.
 
 ### Key Features
 - **Cinematic 3D Visuals:** Powered by `three.js` and `@react-three/fiber`, featuring an interactive WebGL particle swarm and scroll-driven morphing data nodes.

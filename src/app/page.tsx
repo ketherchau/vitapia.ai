@@ -7,7 +7,7 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info } from "lucide-react";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -360,7 +360,65 @@ export default function Home() {
             </motion.div>
           </section>
   
-          {/* Section 9: Social Responsibility */}
+          {/* Section 8.5: Team */}
+        <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
+          <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
+            <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-gradient">Execution.</span></h2>
+            <p className="text-xl text-zinc-400 text-shadow-hard">A multi-disciplinary team combining frontier AI architecture, behavioral science, and empirical data validation.</p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Degen Higgs",
+                role: "CEO & Founder",
+                bio: "Visionary behind the Vitapia prediction engine. Deep expertise in LLM orchestration and translating complex behavioral architectures into scalable enterprise solutions.",
+                image: "/team1.png",
+                color: "from-[#00E5FF]/20"
+              },
+              {
+                name: "Dr. Sarah Lin",
+                role: "Chief Technology Officer",
+                bio: "PhD in Multi-Agent Systems from HKUST. Architect of the asynchronous simulation swarm. Previously built distributed, high-concurrency event-driven systems.",
+                image: "/team2.png",
+                color: "from-[#00FF85]/20"
+              },
+              {
+                name: "Marcus Chen",
+                role: "Chief Data Officer",
+                bio: "Ex-Nielsen Data Scientist. Expert in demographic grounding and mathematical validation. Builds the ETL pipelines bridging messy reality with synthetic logic.",
+                image: "/team3.png",
+                color: "from-[#00E5FF]/20"
+              }
+            ].map((member, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.15 }}
+                whileHover={{ y: -10 }}
+                className="group flex flex-col items-center text-center p-8 rounded-3xl border border-zinc-800 bg-gradient-to-b to-zinc-900/50 backdrop-blur-md transition-all hover:border-zinc-600"
+                style={{ backgroundImage: `linear-gradient(to bottom, transparent, rgba(10,10,10,0.8)), linear-gradient(to bottom, var(--tw-gradient-from), transparent)` }}
+              >
+                <div className={`w-40 h-40 rounded-full mb-6 p-1 bg-gradient-to-tr ${member.color} to-transparent relative overflow-hidden group-hover:scale-105 transition-transform duration-500`}>
+                  <div className="w-full h-full rounded-full overflow-hidden relative border-2 border-zinc-900 bg-zinc-800">
+                    <Image src={member.image} alt={member.name} fill className="object-cover" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
+                <p className="text-[#00E5FF] font-medium text-sm mb-4 tracking-wider uppercase">{member.role}</p>
+                <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">{member.bio}</p>
+                <div className="flex gap-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <a href="#" className="p-2 rounded-full bg-zinc-800 hover:bg-[#00E5FF]/20 hover:text-[#00E5FF] transition-colors"><Linkedin className="w-5 h-5" /></a>
+                  <a href="#" className="p-2 rounded-full bg-zinc-800 hover:bg-[#00FF85]/20 hover:text-[#00FF85] transition-colors"><Github className="w-5 h-5" /></a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 9: Social Responsibility */}
           <section className="py-32 px-6 bg-gradient-to-t from-black to-transparent text-center relative z-10">
             <motion.div {...fadeUpConfig} className="max-w-4xl mx-auto">
               <HeartHandshake className="w-16 h-16 text-[#00E5FF] mx-auto mb-8" />

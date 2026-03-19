@@ -172,7 +172,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-l from-black/80 to-transparent pointer-events-none" />
               <motion.div {...fadeUpConfig} className="max-w-2xl text-right relative z-10">
                 <h2 className="text-5xl md:text-7xl font-bold mb-12 text-shadow-hard leading-tight">
-                  The Digital Twin of <br/><span className="text-[#00E5FF]">Hong Kong.</span>
+                  The Digital Twin of <br/><span className="text-gradient">Hong Kong.</span>
                 </h2>
                 <div className="space-y-6 text-xl text-zinc-300 text-left text-shadow-hard">
                   <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl hover:border-[#00E5FF]/40 transition-colors">
@@ -195,7 +195,7 @@ export default function Home() {
           {/* Section 4: How It Works Engine */}
           <section className="min-h-screen flex flex-col items-center justify-center px-6 py-32 bg-black/60 backdrop-blur-lg border-y border-zinc-900">
             <motion.div {...fadeUpConfig} className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">From Public Data to <span className="text-[#00E5FF]">Predictive Power.</span></h2>
+              <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">From Public Data to <span className="text-gradient">Predictive Power.</span></h2>
               <p className="text-2xl text-zinc-400 text-shadow-hard max-w-3xl mx-auto">Our four-step pipeline ingests raw reality and outputs actionable foresight.</p>
             </motion.div>
 
@@ -232,14 +232,14 @@ export default function Home() {
             <div className="max-w-6xl mx-auto relative z-10">
               <motion.div {...fadeUpConfig} className="mb-20 text-center md:text-left flex flex-col md:flex-row gap-8 items-end justify-between">
                 <div>
-                  <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">Technical <span className="text-[#00E5FF]">Architecture.</span></h2>
+                  <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">Technical <span className="text-gradient">Architecture.</span></h2>
                   <p className="text-xl text-zinc-400 font-light max-w-2xl">
                     A transparent look into the Vitapia engine. How we bridge raw demographic data with high-concurrency LLM cognition.
                   </p>
                 </div>
-                <button className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 transition-colors text-sm font-mono text-zinc-300">
+                <a href="/Vitapia_Whitepaper.pdf" download="Vitapia_Whitepaper.pdf" className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 transition-colors text-sm font-mono text-zinc-300 z-50 relative cursor-pointer hover:border-[#00E5FF]/50 hover:text-[#00E5FF]">
                   <Terminal className="w-4 h-4" /> View Whitepaper.pdf
-                </button>
+                </a>
               </motion.div>
 
               <div className="space-y-6">
@@ -326,7 +326,7 @@ export default function Home() {
           {/* Section 5: Validation / Accuracy */}
           <section className="min-h-[150vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden">
             <motion.div {...fadeUpConfig} className="max-w-[90vw] mx-auto z-10 w-full">
-              <h2 className="text-5xl md:text-7xl font-bold mb-8 text-shadow-hard">Proven <span className="text-[#00FF85]">Accuracy.</span></h2>
+              <h2 className="text-5xl md:text-7xl font-bold mb-8 text-shadow-hard">Proven <span className="text-gradient">Accuracy.</span></h2>
               <p className="text-xl md:text-2xl text-zinc-300 max-w-4xl mx-auto mb-10 text-shadow-hard font-light">
                 We simulated 100 synthetic HK residents against the real 2019/20 HK Household Expenditure Survey.
                 Without manual prompting, our AI agents mathematically matched real Hong Kong human spending behavior.
@@ -388,7 +388,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF]/5 to-transparent pointer-events-none" />
             <motion.div {...fadeUpConfig} className="max-w-3xl relative z-10">
               <h2 className="text-5xl md:text-7xl font-bold mb-12 text-shadow-hard leading-tight">
-                Deep Demographic <br/><span className="text-[#00FF85]">Roleplay.</span>
+                Deep Demographic <br/><span className="text-gradient">Roleplay.</span>
               </h2>
               <div className="space-y-8 text-xl md:text-2xl text-zinc-300 text-shadow-hard font-light">
                 <p>
@@ -431,7 +431,7 @@ export default function Home() {
           {/* Section 8: Business Model */}
         <section className="min-h-screen flex items-center justify-center px-6 py-24 relative text-center">
           <motion.div {...fadeUpConfig} className="max-w-5xl w-full">
-            <h2 className="text-5xl md:text-7xl font-bold mb-20 text-shadow-hard">B2B SaaS for <br/><span className="text-[#00FF85]">Decision Dominance.</span></h2>
+            <h2 className="text-5xl md:text-7xl font-bold mb-20 text-shadow-hard">B2B SaaS for <br/><span className="text-gradient">Decision Dominance.</span></h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
               <div className="p-12 rounded-[2rem] border border-zinc-700 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group">
@@ -513,31 +513,31 @@ export default function Home() {
           {/* Section 8.5: Team */}
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
           <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-gradient">Execution.</span></h2>
+            <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-[#00E5FF] text-gradient">Execution.</span></h2>
             <p className="text-xl text-zinc-400 text-shadow-hard">A multi-disciplinary team combining frontier AI architecture, behavioral science, and empirical data validation.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                name: "Degen Higgs",
-                role: "CEO & Founder",
+                name: "KETHER CHAU",
+                role: "CEO & Technical Co-Founder",
                 bio: "Visionary behind the Vitapia prediction engine. Deep expertise in LLM orchestration and translating complex behavioral architectures into scalable enterprise solutions.",
-                image: "/team1.png",
+                image: "https://media.licdn.com/dms/image/v2/D5603AQEqysKrmJxZ4w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1681297646774?e=1775692800&v=beta&t=S-w30eWOpSOT3py9woroNkpP97rCR6M9K98gIRpLDj4",
                 color: "from-[#00E5FF]/20"
               },
               {
-                name: "Dr. Sarah Lin",
-                role: "Chief Technology Officer",
-                bio: "PhD in Multi-Agent Systems from HKUST. Architect of the asynchronous simulation swarm. Previously built distributed, high-concurrency event-driven systems.",
-                image: "/team2.png",
+                name: "JOLIN NG",
+                role: "CMO & Co-Founder",
+                bio: "Venture builder with proven experience launching startups and scaling enterprise growth. Combines a deep understanding of go-to-market, partnership strategy, and community building to bridge technology and real-world impact across diverse markets.",
+                image: "https://media.licdn.com/dms/image/v2/C4E03AQFU_K1q0Uookg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1517532686884?e=1775692800&v=beta&t=z3sCpMb_0lfPJH8Z6VcqvutlMi3iODmuy31EJbHk9Jw",
                 color: "from-[#00FF85]/20"
               },
               {
-                name: "Marcus Chen",
-                role: "Chief Data Officer",
-                bio: "Ex-Nielsen Data Scientist. Expert in demographic grounding and mathematical validation. Builds the ETL pipelines bridging messy reality with synthetic logic.",
-                image: "/team3.png",
+                name: "JOSEPH CHENG",
+                role: "CTO & AI Co-Founder",
+                bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. Builds the ETL pipelines bridging messy reality with synthetic logic.",
+                image: "https://media.licdn.com/dms/image/v2/C5603AQF1pt-pc8rO-w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1598077113377?e=1775692800&v=beta&t=_6yz93TiJQj4iqvh-aqS-e0iwHvaMgDiNQ0CITTtBZs",
                 color: "from-[#00E5FF]/20"
               }
             ].map((member, i) => (
@@ -575,9 +575,9 @@ export default function Home() {
           
           <div className="max-w-5xl mx-auto relative z-10">
             <motion.div {...fadeUpConfig} className="text-center mb-20">
-              <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">The Path to <span className="text-[#00E5FF]">Scale.</span></h2>
+              <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">The Path to <span className="text-gradient">Scale.</span></h2>
               <p className="text-xl md:text-2xl text-zinc-400 text-shadow-hard max-w-3xl mx-auto font-light">
-                Our accelerated 6-month roadmap designed for the Cyberport Creative Micro Fund. From MVP to Enterprise Validation.
+                Our accelerated 6-month roadmap designed for the AWS x Science Park startups idea launcher. From MVP to Enterprise Validation.
               </p>
             </motion.div>
 
@@ -616,8 +616,8 @@ export default function Home() {
                 {
                   phase: "Phase 4: Domination",
                   time: "Month 6",
-                  title: "Cyberport Demo & CIP Acceleration",
-                  desc: "Publish the verified pilot results. Finalize PDPO compliance audits. Pitch the fully scaled Enterprise SaaS platform at Demo Day, securing seed funding and transition into the Cyberport Incubation Programme (CIP).",
+                  title: "CIP Acceleration",
+                  desc: "Publish the verified pilot results. Finalize PDPO compliance audits. Pitch the fully scaled Enterprise SaaS platform at Demo Day, securing seed funding and transition into the Incubation Programme.",
                   icon: Rocket,
                   color: "text-[#00FF85]",
                   bg: "bg-[#00FF85]/10",
@@ -673,7 +673,7 @@ export default function Home() {
           <section className="h-screen flex flex-col items-center justify-center px-4 text-center bg-zinc-950/90 border-t border-zinc-900 backdrop-blur-2xl relative z-10">
             <motion.div {...fadeUpConfig}>
               <h2 className="text-5xl md:text-8xl font-black mb-8 tracking-tighter">Ready for <br/><span className="text-gradient">Decision Dominance?</span></h2>
-              <p className="text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto">Join the Cyberport pilot program and build Asia&apos;s future of prediction together.</p>
+              <p className="text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto">Join the pilot program and build Asia&apos;s future of prediction together.</p>
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="group flex items-center gap-4 px-10 py-5 mx-auto rounded-full bg-white text-black text-xl font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all"

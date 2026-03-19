@@ -30,12 +30,23 @@ body {
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#00E5FF] to-[#00FF85];
+    background: linear-gradient(to right, #00E5FF, #00FF85);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: white; /* Fallback base color */
   }
   
   /* Hard shadow for readability over 3D particles */
   .text-shadow-hard {
     text-shadow: 0px 4px 24px rgba(0, 0, 0, 0.9), 0px 1px 4px rgba(0, 0, 0, 1);
+  }
+
+  /* Prevent black text-shadows from bleeding through the transparent gradient text */
+  .text-shadow-hard .text-gradient,
+  .text-gradient {
+    text-shadow: none;
+    filter: drop-shadow(0px 2px 10px rgba(0, 229, 255, 0.3));
   }
 }
 

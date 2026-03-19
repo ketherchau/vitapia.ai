@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+body {
+  color: #fff;
+  background-color: #0a0a0a;
+  overflow-x: hidden;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#00E5FF] to-[#00FF85];
+  }
+  
+  /* Hard shadow for readability over 3D particles */
+  .text-shadow-hard {
+    text-shadow: 0px 4px 24px rgba(0, 0, 0, 0.9), 0px 1px 4px rgba(0, 0, 0, 1);
+  }
+}
+

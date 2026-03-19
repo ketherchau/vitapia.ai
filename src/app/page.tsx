@@ -7,7 +7,7 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github } from "lucide-react";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const container = useRef(null);
-  
+
   // High-end scrolling effects mapped to scroll progression
   const { scrollYProgress } = useScroll({
     target: container,
@@ -86,7 +86,7 @@ export default function Home() {
           <ParticleSwarm />
         </motion.div>
         <ScrollShape />
-        
+
         {/* Nav */}
         <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 md:py-6 bg-gradient-to-b from-[#0a0a0a]/80 to-transparent backdrop-blur-sm">
           <div className="flex items-center gap-3">
@@ -96,19 +96,19 @@ export default function Home() {
             </div>
             <span className="text-2xl cursor-pointer font-bold tracking-tight text-white text-shadow-hard hidden md:block">Vitapia.ai</span>
           </div>
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
             className="px-6 py-2.5 rounded-full border border-[#00E5FF]/30 bg-black/40 backdrop-blur-xl hover:bg-[#00E5FF]/20 hover:border-[#00E5FF]/60 transition-all text-sm font-semibold shadow-[0_0_15px_rgba(0,229,255,0.15)]"
           >
             Join Pilot
           </button>
         </nav>
-  
+
         <div className="relative z-10 flex flex-col">
-          
+
           {/* Section 1: Hero */}
           <section className="h-screen flex flex-col items-center justify-center text-center px-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
@@ -117,7 +117,7 @@ export default function Home() {
               <span className="w-2.5 h-2.5 rounded-full bg-[#00E5FF] animate-pulse shadow-[0_0_8px_#00E5FF]" />
               Asia&apos;s First Population-Scale AI Prediction Platform
             </motion.div>
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
@@ -125,17 +125,17 @@ export default function Home() {
             >
               Synthetic <br /> <span className="text-gradient">Societies.</span>
             </motion.h1>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
               className="mt-8 text-xl md:text-3xl text-zinc-300 max-w-3xl text-shadow-hard font-light"
             >
-              Replace slow surveys with high-fidelity digital twins of Cities. 
-              Simulate human decisions at scale — faster, smarter, less biased.
+              Replace slow surveys with high-fidelity digital twins of Cities.
+              Simulate human decisions at scale - faster, smarter, less biased.
             </motion.p>
           </section>
-  
+
           {/* Section 2: The Problem */}
           <section className="min-h-screen flex items-center px-6 md:px-24 py-24 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent pointer-events-none" />
@@ -165,7 +165,7 @@ export default function Home() {
               </motion.ul>
             </motion.div>
           </section>
-  
+
           {/* Section 3: The Solution (Sticky Scroll equivalent) */}
           <section className="min-h-[150vh] relative px-6 md:px-24">
             <div className="sticky top-0 h-screen flex items-center justify-end">
@@ -191,22 +191,22 @@ export default function Home() {
               </motion.div>
             </div>
           </section>
-  
+
           {/* Section 4: How It Works Engine */}
           <section className="min-h-screen flex flex-col items-center justify-center px-6 py-32 bg-black/60 backdrop-blur-lg border-y border-zinc-900">
             <motion.div {...fadeUpConfig} className="text-center mb-20">
               <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">From Public Data to <span className="text-[#00E5FF]">Predictive Power.</span></h2>
               <p className="text-2xl text-zinc-400 text-shadow-hard max-w-3xl mx-auto">Our four-step pipeline ingests raw reality and outputs actionable foresight.</p>
             </motion.div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {[
                 { icon: Database, title: "1. Ingest", desc: "Parse raw HK C&SD Census data (Age, Income, Housing, District)." },
                 { icon: Box, title: "2. Spawn", desc: "Generate thousands of persistent, localized AI personas via async orchestrator." },
-                { icon: BrainCircuit, title: "3. Simulate", desc: "Agents use Chain-of-Thought budgeting to react to your brand’s scenarios." },
+                { icon: BrainCircuit, title: "3. Simulate", desc: "Agents use Chain-of-Thought budgeting to react to your brand's scenarios." },
                 { icon: Activity, title: "4. Analyze", desc: "Output statistically validated predictions on population market behavior." }
               ].map((step, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -223,23 +223,23 @@ export default function Home() {
               ))}
             </div>
           </section>
-  
+
           {/* Section 5: Validation / Accuracy */}
           <section className="min-h-[150vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden">
             <motion.div {...fadeUpConfig} className="max-w-[90vw] mx-auto z-10 w-full">
               <h2 className="text-5xl md:text-7xl font-bold mb-8 text-shadow-hard">Proven <span className="text-[#00FF85]">Accuracy.</span></h2>
               <p className="text-xl md:text-2xl text-zinc-300 max-w-4xl mx-auto mb-10 text-shadow-hard font-light">
-                We simulated 100 synthetic HK residents against the real 2019/20 HK Household Expenditure Survey. 
+                We simulated 100 synthetic HK residents against the real 2019/20 HK Household Expenditure Survey.
                 Without manual prompting, our AI agents mathematically matched real Hong Kong human spending behavior.
               </p>
-  
+
               {/* Interactive 3D Chart Canvas - Scaled up container to fit all questions */}
               <div className="w-full h-[600px] relative bg-black/40 border border-zinc-800 rounded-[2rem] backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)] mb-12 ring-1 ring-white/5 overflow-hidden">
                 <ValidationChart3D />
               </div>
-  
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="p-12 rounded-[2rem] border border-[#00E5FF]/30 bg-gradient-to-b from-[#00E5FF]/10 to-transparent backdrop-blur-md shadow-[0_0_30px_rgba(0,229,255,0.1)] relative group"
                 >
@@ -259,8 +259,8 @@ export default function Home() {
                   </div>
                   <p className="text-xl text-zinc-300 text-shadow-hard">In Food Expenditure Share prediction vs. Real HK Ground Truth.</p>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="p-12 rounded-[2rem] border border-[#00FF85]/30 bg-gradient-to-b from-[#00FF85]/10 to-transparent backdrop-blur-md shadow-[0_0_30px_rgba(0,255,133,0.1)] relative group"
                 >
@@ -283,7 +283,7 @@ export default function Home() {
               </div>
             </motion.div>
           </section>
-  
+
           {/* Section 6: Innovation & Deep Roleplay */}
           <section className="min-h-screen flex items-center px-6 md:px-24 py-24 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF]/5 to-transparent pointer-events-none" />
@@ -304,7 +304,7 @@ export default function Home() {
               </div>
             </motion.div>
           </section>
-  
+
           {/* Section 7: Market Opportunity */}
           <section className="py-32 px-6 bg-black/60 backdrop-blur-lg border-y border-zinc-900 text-center">
             <motion.div {...fadeUpConfig} className="max-w-5xl mx-auto">
@@ -328,45 +328,96 @@ export default function Home() {
               </div>
             </motion.div>
           </section>
-  
+
           {/* Section 8: Business Model */}
-          <section className="min-h-screen flex items-center justify-center px-6 py-24 relative text-center">
-            <motion.div {...fadeUpConfig} className="max-w-5xl w-full">
-              <h2 className="text-5xl md:text-7xl font-bold mb-20 text-shadow-hard">B2B SaaS for <br/><span className="text-[#00FF85]">Decision Dominance.</span></h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
-                <div className="p-12 rounded-[2rem] border border-zinc-700 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-[#00E5FF] group-hover:h-2 transition-all" />
-                  <h3 className="text-3xl font-bold text-white mb-6">Tier 1: Pulse Check</h3>
-                  <p className="text-xl text-zinc-400 mb-8">Pay-per-simulation.</p>
-                  <ul className="space-y-4 text-lg text-zinc-300">
-                    <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> Test a product launch</li>
-                    <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> Against 1,000 synthetic agents</li>
-                    <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> 24-hour turnaround</li>
-                  </ul>
-                </div>
-  
-                <div className="p-12 rounded-[2rem] border border-[#00FF85]/30 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group shadow-[0_0_30px_rgba(0,255,133,0.1)]">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-[#00FF85] group-hover:h-2 transition-all" />
-                  <h3 className="text-3xl font-bold text-white mb-6">Tier 2: Enterprise Custom</h3>
-                  <p className="text-xl text-zinc-400 mb-8">Monthly SaaS Subscription.</p>
-                  <ul className="space-y-4 text-lg text-zinc-300">
-                    <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Upload your own CRM data</li>
-                    <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Spawn custom localized populations</li>
-                    <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Unlimited scenario testing API</li>
-                  </ul>
-                </div>
+        <section className="min-h-screen flex items-center justify-center px-6 py-24 relative text-center">
+          <motion.div {...fadeUpConfig} className="max-w-5xl w-full">
+            <h2 className="text-5xl md:text-7xl font-bold mb-20 text-shadow-hard">B2B SaaS for <br/><span className="text-[#00FF85]">Decision Dominance.</span></h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+              <div className="p-12 rounded-[2rem] border border-zinc-700 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#00E5FF] group-hover:h-2 transition-all" />
+                <h3 className="text-3xl font-bold text-white mb-6">Tier 1: Pulse Check</h3>
+                <p className="text-xl text-zinc-400 mb-8">Pay-per-simulation.</p>
+                <ul className="space-y-4 text-lg text-zinc-300">
+                  <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> Test a product launch</li>
+                  <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> Against 1,000 synthetic agents</li>
+                  <li className="flex items-center gap-3"><span className="text-[#00E5FF]">✔</span> 24-hour turnaround</li>
+                </ul>
               </div>
+
+              <div className="p-12 rounded-[2rem] border border-[#00FF85]/30 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group shadow-[0_0_30px_rgba(0,255,133,0.1)]">
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#00FF85] group-hover:h-2 transition-all" />
+                <h3 className="text-3xl font-bold text-white mb-6">Tier 2: Enterprise Custom</h3>
+                <p className="text-xl text-zinc-400 mb-8">Monthly SaaS Subscription.</p>
+                <ul className="space-y-4 text-lg text-zinc-300">
+                  <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Upload your own CRM data</li>
+                  <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Spawn custom localized populations</li>
+                  <li className="flex items-center gap-3"><span className="text-[#00FF85]">✔</span> Unlimited scenario testing API</li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Section 8.2: Optimisation & Forecast */}
+        <section className="min-h-[120vh] flex flex-col items-center justify-center px-6 py-32 bg-black/60 backdrop-blur-md border-y border-zinc-900 relative overflow-hidden text-center z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#00E5FF]/10 to-[#00FF85]/10 blur-[150px] rounded-full pointer-events-none z-0" />
+          
+          <div className="relative z-10 w-full max-w-6xl mx-auto">
+            <motion.div {...fadeUpConfig} className="mb-24">
+              <h2 className="text-5xl md:text-7xl font-bold text-shadow-hard mb-8">
+                Infinite Scale. <br className="md:hidden" />
+                <span className="text-gradient">Limitless Forecasting.</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-zinc-300 text-shadow-hard max-w-4xl mx-auto font-light leading-relaxed">
+                We are architecting the future of urban simulation. Moving beyond basic consumer survey analytics into massive, multi-variable macro-level city modeling.
+              </p>
             </motion.div>
-          </section>
-  
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+              <motion.div 
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-col gap-6 p-10 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl group hover:border-[#00E5FF]/50 transition-all duration-500"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center text-[#00E5FF] shadow-[0_0_20px_rgba(0,229,255,0.15)] group-hover:scale-110 transition-transform duration-500">
+                  <Cpu className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold text-white">AWS Cloud Optimisation</h3>
+                <p className="text-lg text-zinc-400 leading-relaxed font-light">
+                  Our simulation core is designed to transition seamlessly to <strong className="text-white font-medium">AWS AI Cloud Services</strong> (SageMaker, Bedrock, & EKS). By leveraging elastic, auto-scaling compute clusters, we will horizontally scale our asynchronous orchestrator to simulate <strong className="text-[#00E5FF] font-medium">hundreds of thousands</strong> of concurrent AI agents, effectively mirroring entire city demographics in real-time without computational bottlenecking.
+                </p>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="flex flex-col gap-6 p-10 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl group hover:border-[#00FF85]/50 transition-all duration-500"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center text-[#00FF85] shadow-[0_0_20px_rgba(0,255,133,0.15)] group-hover:scale-110 transition-transform duration-500">
+                  <LineChart className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold text-white">Macro Forecasting</h3>
+                <p className="text-lg text-zinc-400 leading-relaxed font-light">
+                  Survey prediction is just our baseline. By equipping our synthetic populations with physics engines and historical macroeconomic data logic, Vitapia is expanding vertically. We will offer <strong className="text-white font-medium">City Development Analysis</strong> (predicting traffic and commercial shifts due to new MTR lines) and <strong className="text-[#00FF85] font-medium">Economic Forecasting</strong> (modeling district-level retail inflation resilience).
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
           {/* Section 8.5: Team */}
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
           <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-gradient">Execution.</span></h2>
             <p className="text-xl text-zinc-400 text-shadow-hard">A multi-disciplinary team combining frontier AI architecture, behavioral science, and empirical data validation.</p>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
@@ -391,7 +442,7 @@ export default function Home() {
                 color: "from-[#00E5FF]/20"
               }
             ].map((member, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -422,21 +473,21 @@ export default function Home() {
           <section className="py-32 px-6 bg-gradient-to-t from-black to-transparent text-center relative z-10">
             <motion.div {...fadeUpConfig} className="max-w-4xl mx-auto">
               <HeartHandshake className="w-16 h-16 text-[#00E5FF] mx-auto mb-8" />
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-shadow-hard">Ethical AI for Hong Kong’s Future</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-shadow-hard">Ethical AI for Hong Kong&apos;s Future</h2>
               <p className="text-xl md:text-2xl text-zinc-400 text-shadow-hard mb-8 font-light">
                 <strong className="text-white">PDPO Compliant:</strong> Synthetic data means zero personal data privacy risks.<br/><br/>
                 <strong className="text-white">Bias Mitigation:</strong> Mathematical validation ensures diverse, representative populations.<br/><br/>
-                <strong className="text-white">Ecosystem Contribution:</strong> Supports HK’s &quot;AI for All&quot; strategy by creating local jobs in agentic AI.
+                <strong className="text-white">Ecosystem Contribution:</strong> Supports HK&apos;s &quot;AI for All&quot; strategy by creating local jobs in agentic AI.
               </p>
             </motion.div>
           </section>
-          
+
           {/* Section 10: CTA */}
           <section className="h-screen flex flex-col items-center justify-center px-4 text-center bg-zinc-950/90 border-t border-zinc-900 backdrop-blur-2xl relative z-10">
             <motion.div {...fadeUpConfig}>
               <h2 className="text-5xl md:text-8xl font-black mb-8 tracking-tighter">Ready for <br/><span className="text-gradient">Decision Dominance?</span></h2>
               <p className="text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto">Join the Cyberport pilot program and build Asia&apos;s future of prediction together.</p>
-              <button 
+              <button
                 onClick={() => setIsModalOpen(true)}
                 className="group flex items-center gap-4 px-10 py-5 mx-auto rounded-full bg-white text-black text-xl font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all"
               >
@@ -445,27 +496,27 @@ export default function Home() {
               </button>
             </motion.div>
           </section>
-  
+
         </div>
-  
+
         {/* Email Modal */}
         <AnimatePresence>
           {isModalOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/80 backdrop-blur-md"
               onClick={() => setIsModalOpen(false)}
             >
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full max-w-md p-8 rounded-3xl border border-zinc-800 bg-zinc-950 shadow-2xl relative"
               >
-                <button 
+                <button
                   onClick={() => setIsModalOpen(false)}
                   className="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors"
                 >
@@ -473,23 +524,23 @@ export default function Home() {
                 </button>
                 <h3 className="text-3xl font-bold text-white mb-2">Request Access</h3>
                 <p className="text-zinc-400 mb-8">Enter your enterprise email to join the Vitapia.ai pilot waitlist.</p>
-                
+
                 <form onSubmit={handleWaitlistSubmit} className="flex flex-col gap-4">
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required 
+                    required
                     disabled={isSubmitting || submitStatus === "success"}
-                    placeholder="name@company.com" 
+                    placeholder="name@company.com"
                     className="w-full px-5 py-4 rounded-xl border border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#00E5FF] focus:ring-1 focus:ring-[#00E5FF] transition-all disabled:opacity-50"
                   />
-                  <button 
+                  <button
                     type="submit"
                     disabled={isSubmitting || submitStatus === "success" || !email}
                     className={`w-full px-5 py-4 rounded-xl font-bold text-lg transition-all ${
-                      submitStatus === "success" 
-                        ? "bg-green-500 text-white" 
+                      submitStatus === "success"
+                        ? "bg-green-500 text-white"
                         : submitStatus === "error"
                         ? "bg-red-500 text-white"
                         : "bg-gradient-to-r from-[#00E5FF] to-[#00FF85] text-black hover:opacity-90"

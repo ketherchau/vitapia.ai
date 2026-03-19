@@ -57,9 +57,10 @@ function Bar({ position, height, color, value, setTooltip, tooltipPayload }: any
         }}
         onPointerMove={(e) => {
           e.stopPropagation();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           setTooltip((prev: any) => prev ? { ...prev, x: e.clientX, y: e.clientY } : null);
         }}
-        onPointerOut={(e) => { 
+        onPointerOut={() => { 
           setHover(false); 
           document.body.style.cursor = 'auto'; 
           setTooltip(null);

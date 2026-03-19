@@ -7,7 +7,7 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart, Rocket } from "lucide-react";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart, Rocket, Terminal } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -221,6 +221,105 @@ export default function Home() {
                   <p className="text-zinc-400 leading-relaxed">{step.desc}</p>
                 </motion.div>
               ))}
+            </div>
+          </section>
+
+          {/* Section 4.5: Technical Architecture / White Paper */}
+          <section className="py-32 px-6 bg-zinc-950 border-y border-zinc-900 relative overflow-hidden">
+            {/* Tech Grid Background */}
+            <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+            
+            <div className="max-w-6xl mx-auto relative z-10">
+              <motion.div {...fadeUpConfig} className="mb-20 text-center md:text-left flex flex-col md:flex-row gap-8 items-end justify-between">
+                <div>
+                  <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-6">Technical <span className="text-[#00E5FF]">Architecture.</span></h2>
+                  <p className="text-xl text-zinc-400 font-light max-w-2xl">
+                    A transparent look into the Vitapia engine. How we bridge raw demographic data with high-concurrency LLM cognition.
+                  </p>
+                </div>
+                <button className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 transition-colors text-sm font-mono text-zinc-300">
+                  <Terminal className="w-4 h-4" /> View Whitepaper.pdf
+                </button>
+              </motion.div>
+
+              <div className="space-y-6">
+                {/* Layer 1 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="flex flex-col md:flex-row gap-8 p-8 md:p-10 rounded-3xl border border-zinc-800 bg-black/50 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-colors"
+                >
+                  <div className="absolute left-0 top-0 w-1 h-full bg-zinc-800 group-hover:bg-[#00E5FF] transition-colors shadow-[0_0_15px_#00E5FF]" />
+                  <div className="w-16 h-16 shrink-0 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-[#00E5FF] transition-colors">
+                    <Database className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 01 // Low-Level</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">ETL Pipeline & Async Orchestration</h3>
+                    <p className="text-zinc-400 leading-relaxed font-light mb-4">
+                      The foundation relies on an automated ETL (Extract, Transform, Load) pipeline that ingests raw Excel/CSV data directly from the Hong Kong Census and Statistics Department (C&SD). Using <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">pandas</code>, we parse macro-distributions (Income, Housing, Household Size) into discrete probability weights. 
+                    </p>
+                    <p className="text-zinc-400 leading-relaxed font-light">
+                      The simulation runs on a custom high-concurrency Python orchestrator utilizing <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">asyncio</code> and <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">aiohttp</code>. Agents are serialized to local JSON states with version-controlled persistence, allowing us to hit OpenRouter API endpoints with thousands of concurrent requests without threading bottlenecks.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Layer 2 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="flex flex-col md:flex-row gap-8 p-8 md:p-10 rounded-3xl border border-zinc-800 bg-black/50 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-colors"
+                >
+                  <div className="absolute left-0 top-0 w-1 h-full bg-zinc-800 group-hover:bg-[#00FF85] transition-colors shadow-[0_0_15px_#00FF85]" />
+                  <div className="w-16 h-16 shrink-0 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-[#00FF85] transition-colors">
+                    <BrainCircuit className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-mono text-[#00FF85] uppercase tracking-widest">Layer 02 // Mid-Level</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Cognitive Constraints & Chain-of-Thought</h3>
+                    <p className="text-zinc-400 leading-relaxed font-light mb-4">
+                      Standard LLMs hallucinate behavior because they default to global, high-income biases. We circumvent this by stripping out artificial RAG (Retrieval-Augmented Generation) contexts and replacing it with <strong className="text-white font-medium">Deep Demographic Roleplay</strong>. Agents are initialized with immutable traits: Age, Income, Housing Type, District, Occupation, and Household Size.
+                    </p>
+                    <p className="text-zinc-400 leading-relaxed font-light">
+                      To prevent illogical spending choices, the prompt architecture enforces strict <strong className="text-white font-medium">Chain-of-Thought Budgeting</strong>. The LLM must output a valid JSON block calculating its simulated rent, food, and transport costs based <em>only</em> on its assigned income bracket before it is syntactically allowed to output a multiple-choice survey answer.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Layer 3 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="flex flex-col md:flex-row gap-8 p-8 md:p-10 rounded-3xl border border-zinc-800 bg-black/50 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-colors"
+                >
+                  <div className="absolute left-0 top-0 w-1 h-full bg-zinc-800 group-hover:bg-[#00E5FF] transition-colors shadow-[0_0_15px_#00E5FF]" />
+                  <div className="w-16 h-16 shrink-0 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-[#00E5FF] transition-colors">
+                    <Activity className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 03 // High-Level</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Empirical Validation Engine</h3>
+                    <p className="text-zinc-400 leading-relaxed font-light mb-4">
+                      Simulations are worthless without mathematical proof. Our backend includes a dedicated Validator Engine powered by <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">scipy</code> and <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">numpy</code>. 
+                    </p>
+                    <p className="text-zinc-400 leading-relaxed font-light">
+                      Once an agent swarm completes a scenario, their aggregated choices are automatically compared against real-world ground truth datasets (e.g., the historical HK Household Expenditure Survey). The engine calculates the <strong className="text-white font-medium">Mean Absolute Error (MAE)</strong> and performs a <strong className="text-white font-medium">Chi-Square Goodness-of-Fit</strong> test to guarantee the synthetic population&apos;s behavioral distribution mathematically matches the real population.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </section>
 

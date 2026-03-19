@@ -511,6 +511,7 @@ export default function Home() {
         </section>
 
           {/* Section 8.5: Team */}
+        {/* TODO: Add team section back later 
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
           <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-[#00E5FF] text-gradient">Execution.</span></h2>
@@ -567,17 +568,18 @@ export default function Home() {
             ))}
           </div>
         </section>
+        */}
 
         {/* Section 8.7: Roadmap & Milestones */}
+        {/* TODO: Add team section back later 
         <section className="min-h-screen py-32 px-6 bg-black relative overflow-hidden">
-          {/* Faint ambient light */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00FF85]/5 blur-[120px] rounded-full pointer-events-none" />
           
           <div className="max-w-5xl mx-auto relative z-10">
             <motion.div {...fadeUpConfig} className="text-center mb-20">
               <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">The Path to <span className="text-gradient">Scale.</span></h2>
               <p className="text-xl md:text-2xl text-zinc-400 text-shadow-hard max-w-3xl mx-auto font-light">
-                Our accelerated 6-month roadmap designed for the AWS x Science Park startups idea launcher. From MVP to Enterprise Validation.
+                Our accelerated 6-month roadmap designed for the AWS x HKSTP startups idea launcher. From MVP to Enterprise Validation.
               </p>
             </motion.div>
 
@@ -632,7 +634,6 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative"
                 >
-                  {/* Timeline Dot */}
                   <div className={`absolute -left-[41px] md:-left-[73px] top-0 w-5 h-5 rounded-full border-4 border-black ${item.bg.replace('/10', '')} shadow-[0_0_10px_currentColor] ${item.color.replace('text-', '')}`} />
                   
                   <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl group hover:${item.border} transition-all duration-300`}>
@@ -655,6 +656,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        */}
 
         {/* Section 9: Social Responsibility */}
           <section className="py-32 px-6 bg-gradient-to-t from-black to-transparent text-center relative z-10">

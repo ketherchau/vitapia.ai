@@ -7,7 +7,7 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart, Rocket, Terminal } from "lucide-react";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Cpu, LineChart, Terminal } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);

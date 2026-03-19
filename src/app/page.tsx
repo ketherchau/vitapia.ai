@@ -256,14 +256,14 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 01 // Low-Level</span>
+                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 01 // The Social Matrix</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">ETL Pipeline & Async Orchestration</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">Temporal Knowledge Graphs (GraphDB)</h3>
                     <p className="text-zinc-400 leading-relaxed font-light mb-4">
-                      The foundation relies on an automated ETL (Extract, Transform, Load) pipeline that ingests raw Excel/CSV data directly from the Hong Kong Census and Statistics Department (C&SD). Using <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">pandas</code>, we parse macro-distributions (Income, Housing, Household Size) into discrete probability weights. 
+                      Competitors simulate agents in vacuums. Vitapia agents live in a massively interconnected <strong className="text-white font-medium">Temporal Knowledge Graph</strong> (powered by Neo4j). Every agent is a node with weighted edges connecting them to synthetic family members, coworkers, and friends.
                     </p>
                     <p className="text-zinc-400 leading-relaxed font-light">
-                      The simulation runs on a custom high-concurrency Python orchestrator utilizing <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">asyncio</code> and <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">aiohttp</code>. Agents are serialized to local JSON states with version-controlled persistence, allowing us to hit OpenRouter API endpoints with thousands of concurrent requests without threading bottlenecks.
+                      This allows us to simulate <strong className="text-[#00E5FF] font-medium">Network Contagion</strong>. If an agent &apos;buys&apos; a product, that state change ripples through their local graph network, dynamically altering the purchasing probabilities of their synthetic peers to mathematically model viral marketing and social proof.
                     </p>
                   </div>
                 </motion.div>
@@ -282,14 +282,14 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xs font-mono text-[#00FF85] uppercase tracking-widest">Layer 02 // Mid-Level</span>
+                      <span className="text-xs font-mono text-[#00FF85] uppercase tracking-widest">Layer 02 // Cognitive Core</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Cognitive Constraints & Chain-of-Thought</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">Neuro-Symbolic Agent Architecture</h3>
                     <p className="text-zinc-400 leading-relaxed font-light mb-4">
-                      Standard LLMs hallucinate behavior because they default to global, high-income biases. We circumvent this by stripping out artificial RAG (Retrieval-Augmented Generation) contexts and replacing it with <strong className="text-white font-medium">Deep Demographic Roleplay</strong>. Agents are initialized with immutable traits: Age, Income, Housing Type, District, Occupation, and Household Size.
+                      Relying purely on LLMs for financial predictions introduces massive hallucination risks. Vitapia bridges deep learning with hard algorithmic logic via a <strong className="text-white font-medium">Neuro-Symbolic Engine</strong>.
                     </p>
                     <p className="text-zinc-400 leading-relaxed font-light">
-                      To prevent illogical spending choices, the prompt architecture enforces strict <strong className="text-white font-medium">Chain-of-Thought Budgeting</strong>. The LLM must output a valid JSON block calculating its simulated rent, food, and transport costs based <em>only</em> on its assigned income bracket before it is syntactically allowed to output a multiple-choice survey answer.
+                      The &quot;Symbolic&quot; layer is a deterministic physics engine that strictly calculates an agent&apos;s taxes, rent, MTR fares, and inflation impact down to the exact cent based on HK C&amp;SD economic formulas. The &quot;Neuro&quot; layer (the LLM) is then <em>only</em> permitted to calculate the emotional and psychographic variance on the remaining disposable income. 
                     </p>
                   </div>
                 </motion.div>
@@ -308,14 +308,14 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 03 // High-Level</span>
+                      <span className="text-xs font-mono text-[#00E5FF] uppercase tracking-widest">Layer 03 // Proprietary Moat</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Empirical Validation Engine</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">Continuous SLM Fine-Tuning (DPO)</h3>
                     <p className="text-zinc-400 leading-relaxed font-light mb-4">
-                      Simulations are worthless without mathematical proof. Our backend includes a dedicated Validator Engine powered by <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">scipy</code> and <code className="text-[#00E5FF] bg-[#00E5FF]/10 px-1.5 py-0.5 rounded">numpy</code>. 
+                      API wrappers around OpenAI or Google are easily cloned. Vitapia&apos;s ultimate moat is our proprietary foundation model.
                     </p>
                     <p className="text-zinc-400 leading-relaxed font-light">
-                      Once an agent swarm completes a scenario, their aggregated choices are automatically compared against real-world ground truth datasets (e.g., the historical HK Household Expenditure Survey). The engine calculates the <strong className="text-white font-medium">Mean Absolute Error (MAE)</strong> and performs a <strong className="text-white font-medium">Chi-Square Goodness-of-Fit</strong> test to guarantee the synthetic population&apos;s behavioral distribution mathematically matches the real population.
+                      Using our Empirical Validation Engine, every time an agent deviates from real-world ground truth (e.g., Nielsen retail data), the Mean Absolute Error (MAE) is fed backwards into a <strong className="text-white font-medium">Direct Preference Optimization (DPO)</strong> pipeline. We continuously fine-tune our own localized Small Language Models (SLMs). Over time, the Vitapia &quot;HK-Brain&quot; becomes an impenetrable, highly specialized economic model that generic commercial APIs cannot match.
                     </p>
                   </div>
                 </motion.div>

@@ -7,7 +7,7 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart } from "lucide-react";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart, Rocket } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -466,6 +466,94 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* Section 8.7: Roadmap & Milestones */}
+        <section className="min-h-screen py-32 px-6 bg-black relative overflow-hidden">
+          {/* Faint ambient light */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00FF85]/5 blur-[120px] rounded-full pointer-events-none" />
+          
+          <div className="max-w-5xl mx-auto relative z-10">
+            <motion.div {...fadeUpConfig} className="text-center mb-20">
+              <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">The Path to <span className="text-[#00E5FF]">Scale.</span></h2>
+              <p className="text-xl md:text-2xl text-zinc-400 text-shadow-hard max-w-3xl mx-auto font-light">
+                Our accelerated 6-month roadmap designed for the Cyberport Creative Micro Fund. From MVP to Enterprise Validation.
+              </p>
+            </motion.div>
+
+            <div className="relative border-l border-zinc-800 ml-4 md:ml-12 pl-8 md:pl-16 space-y-16">
+              {[
+                {
+                  phase: "Phase 1: Foundation",
+                  time: "Months 1-2",
+                  title: "Engine Scaling & Persistent Memory",
+                  desc: "Transition the core orchestrator to AWS elastic clusters. Scale the synthetic population from N=100 to N=10,000 concurrent agents. Integrate Vector Databases (Milvus) to give agents long-term contextual memory.",
+                  icon: Database,
+                  color: "text-[#00E5FF]",
+                  bg: "bg-[#00E5FF]/10",
+                  border: "border-[#00E5FF]/30"
+                },
+                {
+                  phase: "Phase 2: Validation",
+                  time: "Months 3-4",
+                  title: "B2B Enterprise Pilot Programs",
+                  desc: "Onboard two local Hong Kong FMCG (Fast-Moving Consumer Goods) brands. Ingest their historical CRM data to spawn highly customized, hyper-local consumer segments. Run blind predictive scenarios against their upcoming product launches.",
+                  icon: Target,
+                  color: "text-[#00FF85]",
+                  bg: "bg-[#00FF85]/10",
+                  border: "border-[#00FF85]/30"
+                },
+                {
+                  phase: "Phase 3: Expansion",
+                  time: "Month 5",
+                  title: "Macro-Economic Forecasting Module",
+                  desc: "Expand the simulation engine beyond simple retail surveys. Deploy multi-variable physics engines to simulate city development impacts (e.g., foot traffic changes from a new MTR station, or district-level inflation resilience).",
+                  icon: LineChart,
+                  color: "text-[#00E5FF]",
+                  bg: "bg-[#00E5FF]/10",
+                  border: "border-[#00E5FF]/30"
+                },
+                {
+                  phase: "Phase 4: Domination",
+                  time: "Month 6",
+                  title: "Cyberport Demo & CIP Acceleration",
+                  desc: "Publish the verified pilot results. Finalize PDPO compliance audits. Pitch the fully scaled Enterprise SaaS platform at Demo Day, securing seed funding and transition into the Cyberport Incubation Programme (CIP).",
+                  icon: Rocket,
+                  color: "text-[#00FF85]",
+                  bg: "bg-[#00FF85]/10",
+                  border: "border-[#00FF85]/30"
+                }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative"
+                >
+                  {/* Timeline Dot */}
+                  <div className={`absolute -left-[41px] md:-left-[73px] top-0 w-5 h-5 rounded-full border-4 border-black ${item.bg.replace('/10', '')} shadow-[0_0_10px_currentColor] ${item.color.replace('text-', '')}`} />
+                  
+                  <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl group hover:${item.border} transition-all duration-300`}>
+                    <div className="flex items-start gap-6">
+                      <div className={`hidden md:flex w-16 h-16 rounded-2xl ${item.bg} items-center justify-center ${item.color} shrink-0 group-hover:scale-110 transition-transform`}>
+                        <item.icon className="w-8 h-8" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className={`text-sm font-bold uppercase tracking-widest ${item.color}`}>{item.phase}</span>
+                          <span className="text-zinc-600 font-medium text-sm">• {item.time}</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
+                        <p className="text-zinc-400 leading-relaxed font-light">{item.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 

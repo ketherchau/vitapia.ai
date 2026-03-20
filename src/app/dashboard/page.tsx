@@ -37,8 +37,16 @@ type SimulationData = {
 
 export default function DashboardOverview() {
   const [simulations, setSimulations] = useState<SimulationData[]>(fallbackSimulations);
+  const [stats, setStats] = useState({
+    totalSimulations: 24,
+    agentsSpawned: 45500,
+    avgTurnaroundSeconds: 24,
+    credits: 1250,
+    plan: "Pulse Check"
+  });
 
   useEffect(() => {
+    // Fetch simulations list
     fetch("/api/simulations")
       .then(res => res.json())
       .then(data => {
@@ -61,6 +69,16 @@ export default function DashboardOverview() {
         }
       })
       .catch(console.error);
+
+    // Fetch dynamic user stats
+    fetch("/api/user/stats")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.stats) {
+          setStats(data.stats);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   return (
@@ -70,7 +88,7 @@ export default function DashboardOverview() {
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#00E5FF]/20 to-transparent blur-[80px]" />
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 relative z-10">Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#00FF85]">Admin.</span></h2>
         <p className="text-lg text-zinc-400 max-w-2xl relative z-10">
-          Your synthetic populations are standing by. You have <strong className="text-white">1,250 simulation credits</strong> remaining in your Tier 1: Pulse Check plan.
+          Your synthetic populations are standing by. You have <strong className="text-white">{stats.credits.toLocaleString()} simulation credits</strong> remaining in your Tier: {stats.plan} plan.
         </p>
         <Link 
           href="/dashboard/new" 
@@ -88,7 +106,7 @@ export default function DashboardOverview() {
           </div>
           <div>
             <p className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Total Simulations</p>
-            <h3 className="text-3xl font-black text-white">24</h3>
+            <h3 className="text-3xl font-black text-white">{stats.totalSimulations.toLocaleString()}</h3>
           </div>
         </div>
         <div className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950/80 flex items-center gap-5">
@@ -97,7 +115,7 @@ export default function DashboardOverview() {
           </div>
           <div>
             <p className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Agents Spawned</p>
-            <h3 className="text-3xl font-black text-white">45,500</h3>
+            <h3 className="text-3xl font-black text-white">{stats.agentsSpawned.toLocaleString()}</h3>
           </div>
         </div>
         <div className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950/80 flex items-center gap-5">
@@ -106,7 +124,7 @@ export default function DashboardOverview() {
           </div>
           <div>
             <p className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Avg Turnaround</p>
-            <h3 className="text-3xl font-black text-white">24 <span className="text-xl text-zinc-600">sec</span></h3>
+            <h3 className="text-3xl font-black text-white">{stats.avgTurnaroundSeconds > 0 ? stats.avgTurnaroundSeconds : "--"} <span className="text-xl text-zinc-600">sec</span></h3>
           </div>
         </div>
       </div>

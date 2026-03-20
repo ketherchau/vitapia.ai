@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     await newSim.save();
 
     // Trigger external orchestrator server via webhook
-    const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || 'http://localhost:4000/api/run-simulation';
+    const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || 'http://54.169.3.192:4000/api/run-simulation';
     
     fetch(ORCHESTRATOR_URL, {
       method: 'POST',

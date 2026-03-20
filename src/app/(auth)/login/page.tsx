@@ -10,14 +10,31 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate login delay, redirect to dashboard
-    setTimeout(() => {
-      window.location.href = "/dashboard";
-    }, 1500);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (res.ok) {
+        window.location.href = "/dashboard";
+      } else {
+        const data = await res.json();
+        setErrorMsg(data.error || "Authentication failed");
+        setIsLoading(false);
+      }
+    } catch {
+      setErrorMsg("Network error. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -72,6 +89,12 @@ export default function Login() {
               />
             </div>
           </div>
+          
+          {errorMsg && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-bold text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded-lg text-center">
+              {errorMsg}
+            </motion.div>
+          )}
 
           <button 
             type="submit"

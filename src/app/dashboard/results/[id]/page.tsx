@@ -44,6 +44,31 @@ export default function ReportDetail() {
     topPct = ((sorted[0][1] / responses.length) * 100).toFixed(1) + "%";
   }
 
+  const handleDownloadCSV = () => {
+    if (!responses.length) return;
+    const headers = ["Agent ID", "Age", "Gender", "Housing", "District", "Choice", "Reasoning"];
+    const rows = responses.map((r: Record<string, unknown>) => {
+      const demo = r.demographics as Record<string, string> || {};
+      return [
+        r.agent_id,
+        demo.age || "",
+        demo.gender || "",
+        demo.housing || "",
+        demo.district || "",
+        `"${String(r.choice).replace(/"/g, '""')}"`,
+        `"${String(r.reasoning).replace(/"/g, '""')}"`
+      ].join(",");
+    });
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Vitapia_Sim_${sim.sim_id}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="space-y-8 pb-32 max-w-6xl mx-auto print:max-w-none print:pb-0">
       {/* Header */}
@@ -63,7 +88,7 @@ export default function ReportDetail() {
           </div>
         </div>
         <div className="flex gap-3 print:hidden">
-          <button className="px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 text-zinc-300 font-bold hover:text-white hover:bg-zinc-800 transition-colors flex items-center gap-2">
+          <button onClick={handleDownloadCSV} className="px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 text-zinc-300 font-bold hover:text-white hover:bg-zinc-800 transition-colors flex items-center gap-2">
             <Download className="w-4 h-4" /> Export Raw CSV
           </button>
           <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#00FF85] text-black font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,133,0.3)]">

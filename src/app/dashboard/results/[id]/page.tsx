@@ -12,6 +12,8 @@ export default function ReportDetail() {
   const simId = pathname.split("/").pop() || "SIM-8492";
 
   const [sim, setSim] = useState<Record<string, unknown> | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     if (!simId) return;
@@ -69,6 +71,9 @@ export default function ReportDetail() {
     document.body.removeChild(link);
   };
 
+  const totalPages = Math.ceil(responses.length / itemsPerPage);
+  const currentVoices = responses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="space-y-8 pb-32 max-w-6xl mx-auto print:max-w-none print:pb-0">
       {/* Header */}
@@ -96,6 +101,34 @@ export default function ReportDetail() {
           </button>
         </div>
       </div>
+
+      {/* Context & Scenario (New section) */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10"
+      >
+        <div className="lg:col-span-2 p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/30 print:bg-white">
+          <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Background Scenario</h3>
+          <p className="text-sm text-zinc-300 print:text-gray-800 whitespace-pre-wrap leading-relaxed">{String(sim.scenario_prompt || "No scenario provided.")}</p>
+        </div>
+        <div className="p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/30 print:bg-white">
+          <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Survey Question</h3>
+          {(sim.questions as Array<{ text: string, options: string[] }>)?.map((q, idx) => (
+            <div key={idx} className="mb-4 last:mb-0">
+              <p className="text-sm font-bold text-white print:text-black mb-3">{q.text}</p>
+              <div className="space-y-2">
+                {q.options?.map((opt: string, oIdx: number) => (
+                  <div key={oIdx} className="px-3 py-2 text-xs font-medium text-zinc-400 print:text-gray-600 bg-black/40 print:bg-gray-50 border border-zinc-800/50 print:border-gray-200 rounded-lg">
+                    {opt}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
@@ -132,7 +165,8 @@ export default function ReportDetail() {
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#00E5FF]/5 to-transparent pointer-events-none rounded-r-[2rem]" />
         
         <h3 className="text-2xl font-bold text-white mb-2">Behavioral Heatmap Validation</h3>
-        <p className="text-zinc-400 mb-8">Interact with the 3D data structure to view agent decisions vs. demographic baseline.</p>
+        <p className="text-zinc-400 mb-8 print:hidden">Interact with the 3D data structure to view agent decisions vs. demographic baseline.</p>
+        <p className="text-xs text-zinc-500 italic mb-4 print:hidden">* Note: The 3D validation view is currently rendering a generalized demographic baseline for the MVP.</p>
         
         {/* Re-using the interactive 3D component we built for the landing page */}
         <div className="w-full h-[500px] relative bg-black/40 border border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
@@ -149,7 +183,7 @@ export default function ReportDetail() {
       >
         <h3 className="text-2xl font-bold text-white print:text-black mt-12 mb-6">Voices of the Swarm</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {responses.slice(0, 6).map((voice: Record<string, unknown>, i: number) => {
+          {currentVoices.map((voice: Record<string, unknown>, i: number) => {
             const demo = voice.demographics as Record<string, string>;
             const demoStr = `${demo?.age || "Adult"}, ${demo?.housing || "Private Housing"}`;
             const isTopChoice = voice.choice === topChoice;
@@ -170,6 +204,28 @@ export default function ReportDetail() {
             </div>
           )})}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-8 print:hidden">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 transition-colors text-sm font-bold"
+            >
+              Previous
+            </button>
+            <span className="text-sm font-bold text-zinc-500">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 transition-colors text-sm font-bold"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </motion.div>
     </div>
   );

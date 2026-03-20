@@ -201,6 +201,91 @@ export default function SettingsPage() {
             </motion.div>
           )}
 
+          {activeTab === "security" && (
+            <motion.div key="security" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950">
+              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Shield className="w-5 h-5 text-[#00E5FF]" /> Security & Access</h3>
+              <p className="text-sm text-zinc-400 mb-6">Manage your account authentication and session security.</p>
+              
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                  <div>
+                    <p className="font-bold text-white text-sm">Two-Factor Authentication (2FA)</p>
+                    <p className="text-xs text-zinc-500 mt-1">Protect your account with an additional security layer.</p>
+                  </div>
+                  <button className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 transition-colors rounded-lg text-sm font-medium text-white">Enable</button>
+                </div>
+
+                <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                  <div>
+                    <p className="font-bold text-white text-sm">Password Management</p>
+                    <p className="text-xs text-zinc-500 mt-1">Last changed 45 days ago.</p>
+                  </div>
+                  <button className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 transition-colors rounded-lg text-sm font-medium text-white">Update</button>
+                </div>
+
+                <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                  <div>
+                    <p className="font-bold text-white text-sm">Active Sessions</p>
+                    <p className="text-xs text-zinc-500 mt-1">You are currently logged in on 1 device.</p>
+                  </div>
+                  <button className="px-4 py-2 border border-red-500/30 text-red-500 hover:bg-red-500/10 transition-colors rounded-lg text-sm font-medium">Revoke All</button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "notifications" && (
+            <motion.div key="notifications" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950">
+              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Bell className="w-5 h-5 text-yellow-500" /> Alerts & Notifications</h3>
+              <p className="text-sm text-zinc-400 mb-6">Control how Vitapia communicates with you when asynchronous tasks complete.</p>
+              
+              <div className="space-y-4">
+                {[
+                  { label: "Simulation Completed", desc: "Get an email when a background 1,000-agent run finishes.", checked: true },
+                  { label: "Low Credit Warning", desc: "Notify me when my balance drops below 500 agents.", checked: true },
+                  { label: "Monthly Data Insights", desc: "Receive automated PDF summaries of my organization's activity.", checked: false },
+                  { label: "New Demographic Models", desc: "Updates when new global population baselines are available.", checked: true }
+                ].map((alert, i) => (
+                  <label key={i} className="flex items-start gap-4 p-4 rounded-xl bg-zinc-900 border border-zinc-800 cursor-pointer hover:bg-zinc-800/50 transition-colors">
+                    <input type="checkbox" defaultChecked={alert.checked} className="mt-1 w-4 h-4 rounded border-zinc-700 text-[#00E5FF] focus:ring-[#00E5FF] bg-zinc-950" />
+                    <div>
+                      <p className="font-bold text-white text-sm">{alert.label}</p>
+                      <p className="text-xs text-zinc-500 mt-1">{alert.desc}</p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "data" && (
+            <motion.div key="data" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950">
+              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Database className="w-5 h-5 text-[#8B5CF6]" /> Data Management</h3>
+              <p className="text-sm text-zinc-400 mb-6">Manage data retention policies and privacy compliance for your simulated populations.</p>
+              
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+                  <p className="font-bold text-white text-sm mb-2">Simulation Data Retention</p>
+                  <p className="text-xs text-zinc-500 mb-4">Choose how long Vitapia should store your AI agent responses and reasoning logs before automatic deletion.</p>
+                  <select className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#8B5CF6]">
+                    <option value="90">90 Days (Recommended)</option>
+                    <option value="180">180 Days</option>
+                    <option value="365">1 Year</option>
+                    <option value="forever">Indefinite</option>
+                  </select>
+                </div>
+
+                <div className="p-4 rounded-xl bg-zinc-900 border border-red-500/20">
+                  <h4 className="font-bold text-red-500 text-sm mb-2">Danger Zone</h4>
+                  <p className="text-xs text-zinc-500 mb-4">Permanently delete all historical simulation data, agent memories, and API keys. This action cannot be undone.</p>
+                  <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white transition-colors rounded-lg text-sm font-bold shadow-lg">
+                    Purge Organization Data
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Persistent Orchestrator Sync Status across all tabs */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-950">
             <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><RefreshCw className="w-5 h-5 text-[#00E5FF]" /> Orchestrator Sync</h3>

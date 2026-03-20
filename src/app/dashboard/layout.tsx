@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,6 +20,18 @@ const sidebarLinks = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [credits, setCredits] = useState<number>(1250);
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.user) {
+          setCredits(data.user.credits);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-white overflow-hidden font-sans">
@@ -72,10 +85,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-zinc-400">Simulation Credits</span>
-              <span className="text-xs font-bold text-[#00FF85] px-2 py-1 bg-[#00FF85]/10 rounded-md">1,250</span>
+              <span className="text-xs font-bold text-[#00FF85] px-2 py-1 bg-[#00FF85]/10 rounded-md">{credits.toLocaleString()}</span>
             </div>
             <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-[#00E5FF] to-[#00FF85] w-[45%]" />
+              <div className="h-full bg-gradient-to-r from-[#00E5FF] to-[#00FF85]" style={{ width: `${Math.min(100, (credits / 5000) * 100)}%` }} />
             </div>
             <Link href="/dashboard/billing" className="text-xs font-medium text-white hover:text-[#00E5FF] transition-colors mt-1">Upgrade Tier &rarr;</Link>
           </div>

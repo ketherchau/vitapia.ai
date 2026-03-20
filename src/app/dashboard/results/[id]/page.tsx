@@ -45,28 +45,28 @@ export default function ReportDetail() {
   }
 
   return (
-    <div className="space-y-8 pb-32 max-w-6xl mx-auto">
+    <div className="space-y-8 pb-32 max-w-6xl mx-auto print:max-w-none print:pb-0">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 print:mb-6">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/results" className="p-2 rounded-full hover:bg-zinc-800 transition-colors">
+          <Link href="/dashboard/results" className="p-2 rounded-full hover:bg-zinc-800 transition-colors print:hidden">
             <ArrowLeft className="w-6 h-6 text-zinc-400" />
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h2 className="text-3xl font-bold text-white">{String(sim.sim_id)}</h2>
+              <h2 className="text-3xl font-bold text-white print:text-black">{String(sim.sim_id)}</h2>
               <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border ${
-                String(sim.status) === 'Completed' ? 'bg-[#00FF85]/10 text-[#00FF85] border-[#00FF85]/20' : 'bg-[#00E5FF]/10 text-[#00E5FF] border-[#00E5FF]/20 animate-pulse'
+                String(sim.status) === 'Completed' ? 'bg-[#00FF85]/10 text-[#00FF85] border-[#00FF85]/20 print:border-black print:text-black' : 'bg-[#00E5FF]/10 text-[#00E5FF] border-[#00E5FF]/20 animate-pulse'
               }`}>{String(sim.status)}</span>
             </div>
-            <p className="text-zinc-500">{String(sim.name)} • {String(sim.audience_profile)}</p>
+            <p className="text-zinc-500 print:text-gray-600">{String(sim.name)} • {String(sim.audience_profile)}</p>
           </div>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 print:hidden">
           <button className="px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-900 text-zinc-300 font-bold hover:text-white hover:bg-zinc-800 transition-colors flex items-center gap-2">
             <Download className="w-4 h-4" /> Export Raw CSV
           </button>
-          <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#00FF85] text-black font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,133,0.3)]">
+          <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#00FF85] text-black font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,133,0.3)]">
             <Download className="w-4 h-4" /> Download PDF
           </button>
         </div>
@@ -75,24 +75,24 @@ export default function ReportDetail() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
         {[
-          { label: "Top Decision", value: topPct, sub: topChoice, icon: TrendingUp, color: "text-[#00E5FF]" },
-          { label: "Responses", value: responses.length.toString(), sub: "Synthetic Agents", icon: Info, color: "text-red-400" },
-          { label: "Statistical Accuracy", value: (sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD", sub: "Based on MAE", icon: CheckCircle2, color: "text-[#00FF85]" },
-          { label: "Target Demo Match", value: "1,000", sub: "HK Census Baseline", icon: Users, color: "text-zinc-300" }
+          { label: "Top Decision", value: topPct, sub: topChoice, icon: TrendingUp, color: "text-[#00E5FF]", printColor: "print:text-blue-600" },
+          { label: "Responses", value: responses.length.toString(), sub: "Synthetic Agents", icon: Info, color: "text-red-400", printColor: "print:text-red-600" },
+          { label: "Statistical Accuracy", value: (sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD", sub: "Based on MAE", icon: CheckCircle2, color: "text-[#00FF85]", printColor: "print:text-green-600" },
+          { label: "Target Demo Match", value: "1,000", sub: "HK Census Baseline", icon: Users, color: "text-zinc-300", printColor: "print:text-gray-800" }
         ].map((kpi, i) => (
           <motion.div 
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="p-6 rounded-[1.5rem] border border-zinc-800 bg-zinc-950/80 shadow-lg relative overflow-hidden"
+            className="p-6 rounded-[1.5rem] border border-zinc-800 print:border-gray-300 bg-zinc-950/80 print:bg-white shadow-lg relative overflow-hidden"
           >
-            <div className={`absolute top-4 right-4 ${kpi.color}`}>
+            <div className={`absolute top-4 right-4 ${kpi.color} ${kpi.printColor}`}>
               <kpi.icon className="w-6 h-6 opacity-50" />
             </div>
-            <p className="text-sm font-medium text-zinc-500 uppercase tracking-wide mb-2">{kpi.label}</p>
-            <h3 className={`text-4xl font-black mb-1 ${kpi.color}`}>{kpi.value}</h3>
-            <p className="text-xs text-zinc-500">{kpi.sub}</p>
+            <p className="text-sm font-medium text-zinc-500 print:text-gray-500 uppercase tracking-wide mb-2">{kpi.label}</p>
+            <h3 className={`text-4xl font-black mb-1 ${kpi.color} ${kpi.printColor}`}>{kpi.value}</h3>
+            <p className="text-xs text-zinc-500 print:text-gray-500">{kpi.sub}</p>
           </motion.div>
         ))}
       </div>
@@ -102,7 +102,7 @@ export default function ReportDetail() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="p-8 md:p-10 rounded-[2rem] border border-zinc-800 bg-zinc-950/80 shadow-2xl relative"
+        className="p-8 md:p-10 rounded-[2rem] border border-zinc-800 print:border-gray-300 bg-zinc-950/80 print:bg-white shadow-2xl relative print:hidden"
       >
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#00E5FF]/5 to-transparent pointer-events-none rounded-r-[2rem]" />
         
@@ -120,42 +120,30 @@ export default function ReportDetail() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="space-y-6"
+        className="space-y-6 print:break-before-page"
       >
-        <h3 className="text-2xl font-bold text-white mt-12 mb-6">Voices of the Swarm</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              id: "HK_4092", demo: "Age 25-34, Private Housing", district: "Tsim Sha Tsui",
-              quote: "At HK$32, I expect premium ingredients. Since the competitor offers similar taste for HK$25, my budget restricts me from switching for a daily coffee.",
-              sentiment: "Negative (Price)"
-            },
-            {
-              id: "HK_1021", demo: "Age 15-24, HOS Housing", district: "Kwun Tong",
-              quote: "I am lactose intolerant and constantly looking for sugar-free options. The HK$32 price point is high, but the health benefits justify it as a weekend treat.",
-              sentiment: "Positive (Health)"
-            },
-            {
-              id: "HK_8829", demo: "Age 35-44, Private Housing", district: "Central & Western",
-              quote: "I'd buy it weekly. It fits my lifestyle and the zero-sugar aspect is exactly what I look for after a gym session, regardless of the $7 premium.",
-              sentiment: "Positive (Lifestyle)"
-            }
-          ].map((voice, i) => (
-            <div key={i} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 transition-colors">
-              <div className="flex items-center justify-between border-b border-zinc-800/50 pb-4 mb-4">
+        <h3 className="text-2xl font-bold text-white print:text-black mt-12 mb-6">Voices of the Swarm</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {responses.slice(0, 6).map((voice: Record<string, unknown>, i: number) => {
+            const demo = voice.demographics as Record<string, string>;
+            const demoStr = `${demo?.age || "Adult"}, ${demo?.housing || "Private Housing"}`;
+            const isTopChoice = voice.choice === topChoice;
+            return (
+            <div key={i} className="p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/50 print:bg-white hover:bg-zinc-800/80 transition-colors break-inside-avoid">
+              <div className="flex items-center justify-between border-b border-zinc-800/50 print:border-gray-200 pb-4 mb-4">
                 <div>
-                  <span className="text-xs font-mono text-[#00FF85] bg-[#00FF85]/10 px-2 py-1 rounded">{voice.id}</span>
+                  <span className="text-xs font-mono text-[#00FF85] bg-[#00FF85]/10 print:bg-green-100 print:text-green-800 px-2 py-1 rounded">{String(voice.agent_id)}</span>
                 </div>
-                <span className="text-xs text-zinc-500 flex items-center gap-1"><Users className="w-3 h-3" /> {voice.district}</span>
+                <span className="text-xs text-zinc-500 print:text-gray-500 flex items-center gap-1"><Users className="w-3 h-3" /> {demo?.district || "Hong Kong"}</span>
               </div>
-              <p className="text-sm italic text-zinc-300 mb-4 leading-relaxed">&quot;{voice.quote}&quot;</p>
+              <p className="text-sm italic text-zinc-300 print:text-gray-800 mb-4 leading-relaxed">&quot;{String(voice.reasoning)}&quot;</p>
               <div className="flex items-center gap-2 mt-auto">
-                <span className={`w-2 h-2 rounded-full ${voice.sentiment.includes('Positive') ? 'bg-[#00FF85]' : 'bg-red-400'}`} />
-                <span className="text-xs text-zinc-500">{voice.sentiment}</span>
-                <span className="text-xs text-zinc-600 ml-auto">{voice.demo}</span>
+                <span className={`w-2 h-2 rounded-full ${isTopChoice ? 'bg-[#00FF85] print:bg-green-500' : 'bg-red-400 print:bg-red-500'}`} />
+                <span className="text-xs text-zinc-500 print:text-gray-600 truncate max-w-[150px]">{String(voice.choice)}</span>
+                <span className="text-xs text-zinc-600 print:text-gray-400 ml-auto truncate">{demoStr}</span>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       </motion.div>
     </div>

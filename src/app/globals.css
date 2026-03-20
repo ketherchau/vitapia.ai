@@ -2,51 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-html.lenis {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 body {
-  color: #fff;
-  background-color: #0a0a0a;
-  overflow-x: hidden;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(to right, #00E5FF, #00FF85);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: white; /* Fallback base color */
-  }
-  
-  /* Hard shadow for readability over 3D particles */
-  .text-shadow-hard {
-    text-shadow: 0px 4px 24px rgba(0, 0, 0, 0.9), 0px 1px 4px rgba(0, 0, 0, 1);
-  }
-
-  /* Prevent black text-shadows from bleeding through the transparent gradient text */
-  .text-shadow-hard .text-gradient,
-  .text-gradient {
-    text-shadow: none;
-    filter: drop-shadow(0px 2px 10px rgba(0, 229, 255, 0.3));
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  .print\:text-black {
+    color: black !important;
+  }
+  
+  .print\:border-black {
+    border-color: black !important;
+  }
+  
+  .print\:bg-white {
+    background-color: white !important;
+  }
+
+  .print\:break-before-page {
+    break-before: page;
+  }
+
+  .print\:border-gray-300 {
+    border-color: #d1d5db !important;
+  }
+  .print\:border-gray-200 {
+    border-color: #e5e7eb !important;
+  }
+
+  /* Override dark mode text */
+  .text-white { color: black !important; }
+  .text-zinc-500 { color: #6b7280 !important; }
+  .text-zinc-400 { color: #4b5563 !important; }
+  .text-zinc-300 { color: #374151 !important; }
+  
+  .bg-zinc-950\/80, .bg-zinc-900\/50 {
+    background: transparent !important;
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

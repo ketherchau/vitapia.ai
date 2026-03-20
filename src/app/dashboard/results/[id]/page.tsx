@@ -1,11 +1,49 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Download, Info, CheckCircle2, TrendingUp, Users } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ValidationChart3D from "@/components/ValidationChart3D";
 
 export default function ReportDetail() {
+  const pathname = usePathname();
+  const simId = pathname.split("/").pop() || "SIM-8492";
+
+  const [sim, setSim] = useState<Record<string, unknown> | null>(null);
+
+  useEffect(() => {
+    if (!simId) return;
+    fetch(`/api/simulations/${simId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.simulation) {
+          setSim(data.simulation);
+        }
+      })
+      .catch(console.error);
+  }, [simId]);
+
+  if (!sim) {
+    return <div className="p-20 text-center text-zinc-500 animate-pulse">Loading Simulation Analytics...</div>;
+  }
+
+  // Calculate top option choice dynamically
+  const responses = (sim.results as Record<string, unknown>)?.agent_responses as Array<{ choice: string }> || [];
+  const choiceCounts: Record<string, number> = {};
+  responses.forEach((r: { choice: string }) => {
+    choiceCounts[r.choice] = (choiceCounts[r.choice] || 0) + 1;
+  });
+  
+  let topChoice = "N/A";
+  let topPct = "0.0%";
+  if (responses.length > 0) {
+    const sorted = Object.entries(choiceCounts).sort((a, b) => b[1] - a[1]);
+    topChoice = sorted[0][0];
+    topPct = ((sorted[0][1] / responses.length) * 100).toFixed(1) + "%";
+  }
+
   return (
     <div className="space-y-8 pb-32 max-w-6xl mx-auto">
       {/* Header */}
@@ -16,10 +54,12 @@ export default function ReportDetail() {
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h2 className="text-3xl font-bold text-white">SIM-8492</h2>
-              <span className="px-3 py-1 rounded-full bg-[#00FF85]/10 text-[#00FF85] text-xs font-bold uppercase tracking-widest border border-[#00FF85]/20">Completed</span>
+              <h2 className="text-3xl font-bold text-white">{String(sim.sim_id)}</h2>
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border ${
+                String(sim.status) === 'Completed' ? 'bg-[#00FF85]/10 text-[#00FF85] border-[#00FF85]/20' : 'bg-[#00E5FF]/10 text-[#00E5FF] border-[#00E5FF]/20 animate-pulse'
+              }`}>{String(sim.status)}</span>
             </div>
-            <p className="text-zinc-500">Sugar-Free Oat Milk Launch (TST) • 1,000 Agents</p>
+            <p className="text-zinc-500">{String(sim.name)} • {String(sim.audience_profile)}</p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -35,9 +75,9 @@ export default function ReportDetail() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
         {[
-          { label: "Est. Adoption Rate", value: "62.4%", sub: "High Likelihood", icon: TrendingUp, color: "text-[#00E5FF]" },
-          { label: "Primary Rejection Factor", value: "Price ($32)", sub: "31% of Agents", icon: Info, color: "text-red-400" },
-          { label: "Statistical Accuracy", value: "97.2%", sub: "MAE: 0.028", icon: CheckCircle2, color: "text-[#00FF85]" },
+          { label: "Top Decision", value: topPct, sub: topChoice, icon: TrendingUp, color: "text-[#00E5FF]" },
+          { label: "Responses", value: responses.length.toString(), sub: "Synthetic Agents", icon: Info, color: "text-red-400" },
+          { label: "Statistical Accuracy", value: (sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD", sub: "Based on MAE", icon: CheckCircle2, color: "text-[#00FF85]" },
           { label: "Target Demo Match", value: "1,000", sub: "HK Census Baseline", icon: Users, color: "text-zinc-300" }
         ].map((kpi, i) => (
           <motion.div 

@@ -23,6 +23,18 @@ export async function POST(request: Request) {
 
     await newSim.save();
 
+    // Trigger external orchestrator server via webhook
+    const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || 'http://localhost:4000/api/run-simulation';
+    
+    fetch(ORCHESTRATOR_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        sim_id, 
+        num_agents: 1000 // Instruct the orchestrator to run a large population
+      })
+    }).catch(err => console.error("Webhook to orchestrator failed:", err));
+
     return NextResponse.json({ success: true, sim_id });
   } catch (error) {
     console.error("Simulation Creation Error:", error);

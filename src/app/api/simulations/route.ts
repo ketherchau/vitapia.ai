@@ -24,11 +24,15 @@ export async function POST(request: Request) {
     // 2. Generate a random SIM-XXXX ID
     const sim_id = `SIM-${Math.floor(1000 + Math.random() * 9000)}`;
     
+    const filters = body.audienceFilters || {};
+    const isTargeted = filters.age || filters.gender || filters.district;
+    const audienceDesc = isTargeted ? "Targeted Demographic" : "HK Baseline";
+    
     const newSim = new Simulation({
       sim_id,
       user_id,
       name: body.projectName || "Untitled Pulse Check",
-      audience_profile: `HK Baseline (${num_agents} Agents)`,
+      audience_profile: `${audienceDesc} (${num_agents} Agents)`,
       status: "Running",
       scenario_prompt: body.scenarioPrompt || "Default scenario parameters",
       questions: body.questions || [],
@@ -45,7 +49,8 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         sim_id, 
-        num_agents // Pass the explicit agent count
+        num_agents,
+        filters
       })
     }).catch(err => console.error("Webhook to orchestrator failed:", err));
 

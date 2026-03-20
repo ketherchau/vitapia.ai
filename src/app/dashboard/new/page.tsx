@@ -10,6 +10,9 @@ export default function NewSimulation() {
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [scenarioPrompt, setScenarioPrompt] = useState("");
+  const [targetAge, setTargetAge] = useState("All");
+  const [targetGender, setTargetGender] = useState("All");
+  const [targetDistrict, setTargetDistrict] = useState("All");
   const [questions, setQuestions] = useState([
     { id: 1, text: "", options: ["", ""] }
   ]);
@@ -69,6 +72,11 @@ export default function NewSimulation() {
         body: JSON.stringify({
           projectName,
           scenarioPrompt,
+          audienceFilters: {
+            age: targetAge !== "All" ? targetAge : null,
+            gender: targetGender !== "All" ? targetGender : null,
+            district: targetDistrict !== "All" ? targetDistrict : null,
+          },
           questions: questions.map(q => ({
             q_id: `Q${q.id}`,
             text: q.text,
@@ -143,17 +151,62 @@ export default function NewSimulation() {
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-bold uppercase tracking-widest text-zinc-400">Target Audience (Tier 1 Constraint)</label>
-                <span className="text-xs px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 font-medium flex items-center gap-2"><ShieldAlert className="w-3 h-3 text-yellow-500" /> Locked to Plan</span>
-              </div>
-              <div className="p-5 rounded-xl border border-[#00FF85]/30 bg-gradient-to-r from-[#00FF85]/5 to-transparent flex items-center gap-6">
-                <div className="w-14 h-14 rounded-full bg-[#00FF85]/20 flex items-center justify-center text-[#00FF85] shrink-0">
-                  <Users className="w-6 h-6" />
+              <label className="text-sm font-bold uppercase tracking-widest text-zinc-400">Target Audience Focus Group</label>
+              <div className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 flex flex-col gap-6">
+                <div className="flex items-center gap-4 border-b border-zinc-800/50 pb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#00FF85]/20 flex items-center justify-center text-[#00FF85] shrink-0">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white mb-1">Hong Kong Census Demographics</h4>
+                    <p className="text-sm text-zinc-400">Filter your 1,000 synthetic agents. Selecting "All" mirrors the baseline population naturally.</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xl font-bold text-white mb-1">Hong Kong Baseline (1,000 Agents)</h4>
-                  <p className="text-sm text-zinc-400">Full demographic distribution mirroring 2021 HK C&SD Census data across all 18 districts, income brackets, and housing types.</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-zinc-500 uppercase">Age Bracket</label>
+                    <select 
+                      value={targetAge} 
+                      onChange={(e) => setTargetAge(e.target.value)} 
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                    >
+                      <option value="All">All Ages</option>
+                      <option value="18-24">18-24</option>
+                      <option value="25-34">25-34</option>
+                      <option value="35-44">35-44</option>
+                      <option value="45-54">45-54</option>
+                      <option value="55-64">55-64</option>
+                      <option value="65+">65+</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-zinc-500 uppercase">Gender</label>
+                    <select 
+                      value={targetGender} 
+                      onChange={(e) => setTargetGender(e.target.value)} 
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                    >
+                      <option value="All">All Genders</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-zinc-500 uppercase">District</label>
+                    <select 
+                      value={targetDistrict} 
+                      onChange={(e) => setTargetDistrict(e.target.value)} 
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                    >
+                      <option value="All">All Districts</option>
+                      <option value="Hong Kong Island">Hong Kong Island</option>
+                      <option value="Kowloon">Kowloon</option>
+                      <option value="New Territories">New Territories</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>

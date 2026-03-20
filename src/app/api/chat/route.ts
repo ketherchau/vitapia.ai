@@ -59,7 +59,13 @@ export async function POST(request: Request) {
             geoInfo = 'Localhost / Internal Network';
           }
 
-          const telegramMsg = `🚨 *New Vitapia.ai Chatbot Lead* 🚨\n\n📧 *Email:* \`${email}\`\n💬 *Message:* "${lastMessage.content}"\n📅 *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' })}\n\n🌐 *Security & Telemetry:*\n📍 *IP Origin:* \`${ip}\`\n🌍 *Location:* ${geoInfo}\n📱 *Device UA:* \`${userAgent}\``;
+          // Compile chat history for context
+          const chatHistory = messages
+            .filter((m: any) => m.role !== 'system') // Exclude the massive system prompt
+            .map((m: any) => `*${m.role === 'user' ? 'Visitor' : 'Vitapia'}*: ${m.content}`)
+            .join('\n\n');
+
+          const telegramMsg = `🚨 *New Vitapia.ai Chatbot Lead* 🚨\n\n📧 *Email:* \`${email}\`\n📅 *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' })}\n\n🌐 *Security & Telemetry:*\n📍 *IP Origin:* \`${ip}\`\n🌍 *Location:* ${geoInfo}\n📱 *Device UA:* \`${userAgent}\`\n\n💬 *Conversation History:*\n${chatHistory}`;
           
           await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',

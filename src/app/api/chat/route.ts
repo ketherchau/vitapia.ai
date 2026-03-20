@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
 const SYSTEM_PROMPT = `You are the official AI Assistant for Vitapia.ai, Asia's first population-scale AI prediction platform.
 Your job is to answer visitor questions concisely and professionally. 
@@ -17,6 +19,25 @@ CRITICAL INSTRUCTIONS:
 2. If the user asks how to get started, wants to talk to sales/a human, or asks a question outside your context, reply exactly with: "I'd be happy to connect you with our team! Please reply with your email address and we'll reach out shortly."
 3. If the user provides an email address in their message, reply exactly with: "Thank you! I've successfully notified our team. We'll be in touch soon."`;
 
+// Local JSON Failsafe Logger
+function saveLeadLocally(leadData: Record<string, unknown>) {
+  try {
+    const leadsDir = path.join(process.cwd(), 'data');
+    if (!fs.existsSync(leadsDir)) fs.mkdirSync(leadsDir, { recursive: true });
+    
+    const leadsFile = path.join(leadsDir, 'leads.json');
+    let leads = [];
+    if (fs.existsSync(leadsFile)) {
+      leads = JSON.parse(fs.readFileSync(leadsFile, 'utf-8'));
+    }
+    leads.push({ ...leadData, timestamp: new Date().toISOString() });
+    fs.writeFileSync(leadsFile, JSON.stringify(leads, null, 2));
+    console.log("[*] Lead safely written to local disk (failsafe).");
+  } catch (err) {
+    console.error("Failed to save lead locally:", err);
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const { messages } = await request.json();
@@ -34,44 +55,67 @@ export async function POST(request: Request) {
       if (emailMatch) {
         const email = emailMatch[0];
         
-        // Extract Telemetry & Send to Telegram
+        // Extract Telemetry
+        const userAgent = request.headers.get('user-agent') || 'Unknown Device';
+        const forwardedFor = request.headers.get('x-forwarded-for');
+        const realIp = request.headers.get('x-real-ip');
+        const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : (realIp || 'Unknown IP');
+        
+        let geoInfo = 'Unknown Location';
+        if (ip !== 'Unknown IP' && ip !== '::1' && ip !== '127.0.0.1') {
+          try {
+            const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,regionName,city,isp`);
+            const geoData = await geoRes.json();
+            if (geoData.status === 'success') geoInfo = `${geoData.city}, ${geoData.regionName}, ${geoData.country} (ISP: ${geoData.isp})`;
+          } catch (e) {
+            console.error("Geo IP fetch failed:", e);
+          }
+        } else {
+          geoInfo = 'Localhost / Internal Network';
+        }
+
+        // TRUNCATION: Keep only the last 6 messages, and max 2500 chars to avoid Telegram's 4096 limit
+        const recentMessages = messages
+          .filter((m: { role: string; content: string }) => m.role !== 'system')
+          .slice(-6); // Only keep last 6 turns
+          
+        let chatHistory = recentMessages
+          .map((m: { role: string; content: string }) => `*${m.role === 'user' ? 'Visitor' : 'Vitapia'}*: ${m.content}`)
+          .join('\n\n');
+          
+        if (chatHistory.length > 2500) {
+          chatHistory = chatHistory.substring(0, 2500) + '\n\n... [History Truncated due to length]';
+        }
+
+        // SAVE TO LOCAL DISK IMMEDIATELY (FAILSAFE)
+        saveLeadLocally({ source: 'chatbot', email, ip, geoInfo, userAgent, chatHistory });
+
+        // SEND TO TELEGRAM (WITH RETRIES)
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
         
         if (botToken && chatId) {
-          const userAgent = request.headers.get('user-agent') || 'Unknown Device';
-          const forwardedFor = request.headers.get('x-forwarded-for');
-          const realIp = request.headers.get('x-real-ip');
-          const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : (realIp || 'Unknown IP');
-          
-          let geoInfo = 'Unknown Location';
-          if (ip !== 'Unknown IP' && ip !== '::1' && ip !== '127.0.0.1') {
-            try {
-              const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,regionName,city,isp`);
-              const geoData = await geoRes.json();
-              if (geoData.status === 'success') {
-                geoInfo = `${geoData.city}, ${geoData.regionName}, ${geoData.country} (ISP: ${geoData.isp})`;
-              }
-            } catch (e) {
-              console.error("Geo IP fetch failed:", e);
-            }
-          } else {
-            geoInfo = 'Localhost / Internal Network';
-          }
-
-          // Compile chat history for context
-          const chatHistory = messages
-            .filter((m: { role: string; content: string }) => m.role !== 'system') // Exclude the massive system prompt
-            .map((m: { role: string; content: string }) => `*${m.role === 'user' ? 'Visitor' : 'Vitapia'}*: ${m.content}`)
-            .join('\n\n');
-
           const telegramMsg = `🚨 *New Vitapia.ai Chatbot Lead* 🚨\n\n📧 *Email:* \`${email}\`\n📅 *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' })}\n\n🌐 *Security & Telemetry:*\n📍 *IP Origin:* \`${ip}\`\n🌍 *Location:* ${geoInfo}\n📱 *Device UA:* \`${userAgent}\`\n\n💬 *Conversation History:*\n${chatHistory}`;
           
-          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: telegramMsg, parse_mode: 'Markdown' }),
-          }).catch(err => console.error("Telegram API Error:", err));
+          // Exponential backoff retry loop (3 attempts)
+          for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+              const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: telegramMsg, parse_mode: 'Markdown' }),
+              });
+              if (tgRes.ok) {
+                console.log("[*] Telegram notification dispatched successfully.");
+                break; // Success, exit retry loop
+              } else {
+                console.warn(`[!] Telegram attempt ${attempt} failed with status: ${tgRes.status}`);
+              }
+            } catch (err) {
+              console.error(`[!] Telegram network error on attempt ${attempt}:`, err);
+            }
+            if (attempt < 3) await new Promise(res => setTimeout(res, 1000 * attempt)); // wait 1s, 2s...
+          }
         }
       }
     }

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, Info, CheckCircle2, TrendingUp, Users } from "lucide-react";
+import { ArrowLeft, Download, Info, CheckCircle2, TrendingUp, Users, Database, Cpu, GitBranch, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import ValidationChart3D from "@/components/ValidationChart3D";
+import SimulationChart3D from "@/components/SimulationChart3D";
 
 export default function ReportDetail() {
   const pathname = usePathname();
@@ -164,13 +164,43 @@ export default function ReportDetail() {
       >
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#00E5FF]/5 to-transparent pointer-events-none rounded-r-[2rem]" />
         
-        <h3 className="text-2xl font-bold text-white mb-2">Behavioral Heatmap Validation</h3>
-        <p className="text-zinc-400 mb-8 print:hidden">Interact with the 3D data structure to view agent decisions vs. demographic baseline.</p>
-        <p className="text-xs text-zinc-500 italic mb-4 print:hidden">* Note: The 3D validation view is currently rendering a generalized demographic baseline for the MVP.</p>
+        <h3 className="text-2xl font-bold text-white mb-2">Behavioral Matrix Analysis</h3>
+        <p className="text-zinc-400 mb-8 print:hidden">Interact with the 3D data structure to view how different demographics voted.</p>
         
-        {/* Re-using the interactive 3D component we built for the landing page */}
         <div className="w-full h-[500px] relative bg-black/40 border border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
-          <ValidationChart3D />
+          <SimulationChart3D responses={responses} />
+        </div>
+      </motion.div>
+
+      {/* The AI Pipeline Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.45 }}
+        className="p-8 md:p-10 rounded-[2rem] border border-zinc-800 bg-zinc-900/30 shadow-lg relative print:break-before-page"
+      >
+        <h3 className="text-2xl font-bold text-white print:text-black mb-2">The Generative Analytics Pipeline</h3>
+        <p className="text-zinc-400 print:text-gray-600 mb-10">How Vitapia dynamically processes {responses.length.toLocaleString()} synthetic agents from origin to statistical insight.</p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 relative">
+          {/* connecting lines for desktop */}
+          <div className="hidden md:block absolute top-12 left-10 right-10 h-0.5 bg-gradient-to-r from-zinc-800 via-[#00E5FF]/50 to-zinc-800 z-0" />
+          
+          {[
+            { step: "01", title: "Census Sampling", desc: "Agents injected with HK demographics (Age, Income, Housing)", icon: Database, color: "text-[#00E5FF]", bg: "bg-[#00E5FF]/10" },
+            { step: "02", title: "Context Matrix", desc: "Scenario logic & budget constraints applied to individual profiles", icon: Cpu, color: "text-[#00FF85]", bg: "bg-[#00FF85]/10" },
+            { step: "03", title: "Chain of Thought", desc: "LLMs execute individual reasoning and discrete choices autonomously", icon: GitBranch, color: "text-[#8B5CF6]", bg: "bg-[#8B5CF6]/10" },
+            { step: "04", title: "Data Quantization", desc: "Natural language parsed into statistical arrays & dashboard metrics", icon: LayoutDashboard, color: "text-[#EC4899]", bg: "bg-[#EC4899]/10" }
+          ].map((item, idx) => (
+            <div key={idx} className="relative z-10 flex flex-col items-center text-center p-4 bg-zinc-950 print:bg-white rounded-2xl border border-zinc-800 print:border-gray-300">
+              <div className={`w-16 h-16 rounded-2xl ${item.bg} border border-zinc-800 flex items-center justify-center mb-4`}>
+                <item.icon className={`w-8 h-8 ${item.color}`} />
+              </div>
+              <span className="text-xs font-black text-zinc-600 mb-1 uppercase tracking-widest">Step {item.step}</span>
+              <h4 className="text-sm font-bold text-white print:text-black mb-2">{item.title}</h4>
+              <p className="text-xs text-zinc-500 print:text-gray-500 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </motion.div>
 

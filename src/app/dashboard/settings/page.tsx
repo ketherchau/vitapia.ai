@@ -160,6 +160,35 @@ export default function SettingsPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Developer REST API Instructions */}
+              <div className="mt-8 pt-6 border-t border-zinc-800">
+                <h4 className="text-sm font-bold text-white mb-4">REST API Usage Example</h4>
+                <p className="text-xs text-zinc-400 mb-4">Trigger a synthetic simulation programmatically from your own backend. Set your API Key in the <code className="bg-zinc-900 px-1 py-0.5 rounded text-zinc-300">Authorization</code> header as a Bearer token.</p>
+                <div className="relative bg-black rounded-xl border border-zinc-800 p-5 font-mono text-xs text-zinc-300 overflow-x-auto leading-relaxed shadow-inner">
+                  <pre>
+<span className="text-[#00E5FF]">curl</span> -X POST https://vitapia.ai/api/simulations \<br/>
+&nbsp;&nbsp;-H <span className="text-[#00FF85]">&quot;Authorization: Bearer {'{'}YOUR_API_KEY{'}'}&quot;</span> \<br/>
+&nbsp;&nbsp;-H <span className="text-[#00FF85]">&quot;Content-Type: application/json&quot;</span> \<br/>
+&nbsp;&nbsp;-d <span className="text-[#F59E0B]">&apos;{'{'}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;projectName&quot;: &quot;Programmatic Test&quot;,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;scenarioPrompt&quot;: &quot;You are a consumer looking to buy an EV...&quot;,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;num_agents&quot;: 100,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;audienceFilters&quot;: {'{'}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;income&quot;: &quot;40k-80k&quot;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{'}'},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&quot;questions&quot;: [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'{'}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;q_id&quot;: &quot;q1&quot;,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;text&quot;: &quot;Would you switch to Tesla?&quot;,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;options&quot;: [&quot;Yes&quot;, &quot;No&quot;, &quot;Maybe&quot;]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'}'}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;]<br/>
+&nbsp;&nbsp;{'}'}&apos;</span>
+                  </pre>
+                </div>
+              </div>
+
               <div className="mt-8 pt-6 border-t border-zinc-800">
                 <button 
                   onClick={handleGenerateKey}

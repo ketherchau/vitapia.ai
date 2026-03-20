@@ -8,13 +8,26 @@ export async function POST(request: Request) {
     await dbConnect();
     const body = await request.json();
     
-    const user_id = "admin_hikari";
-    const num_agents = 100; // Fixed size for MVP pitch
+    // Auth Logic: Support both internal session and external API Key
+    const authHeader = request.headers.get("authorization");
+    let user;
+    
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const apiKey = authHeader.split(" ")[1];
+      user = await User.findOne({ api_key: apiKey });
+      if (!user) return NextResponse.json({ error: "Invalid or inactive API Key" }, { status: 401 });
+    } else {
+      user = await User.findOne({ user_id: "admin_hikari" }); // Fallback MVP session
+      if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user_id = user.user_id;
+    // Allow external API callers to specify agent count, fallback to 100
+    const num_agents = body.num_agents || 100;
     const cost_credits = num_agents; // 1 credit = 1 agent
 
     // 1. Check and deduct credits
-    const user = await User.findOne({ user_id });
-    if (!user || user.credits < cost_credits) {
+    if (user.credits < cost_credits) {
       return NextResponse.json({ error: "Insufficient simulation credits" }, { status: 402 });
     }
     

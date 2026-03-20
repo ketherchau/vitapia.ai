@@ -13,6 +13,8 @@ export default function NewSimulation() {
   const [targetAge, setTargetAge] = useState("All");
   const [targetGender, setTargetGender] = useState("All");
   const [targetDistrict, setTargetDistrict] = useState("All");
+  const [targetIncome, setTargetIncome] = useState("All");
+  const [targetHousing, setTargetHousing] = useState("All");
   const [questions, setQuestions] = useState([
     { id: 1, text: "", options: ["", ""] }
   ]);
@@ -76,6 +78,8 @@ export default function NewSimulation() {
             age: targetAge !== "All" ? targetAge : null,
             gender: targetGender !== "All" ? targetGender : null,
             district: targetDistrict !== "All" ? targetDistrict : null,
+            income: targetIncome !== "All" ? targetIncome : null,
+            housing: targetHousing !== "All" ? targetHousing : null,
           },
           questions: questions.map(q => ({
             q_id: `Q${q.id}`,
@@ -205,6 +209,37 @@ export default function NewSimulation() {
                       <option value="Hong Kong Island">Hong Kong Island</option>
                       <option value="Kowloon">Kowloon</option>
                       <option value="New Territories">New Territories</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-zinc-500 uppercase">Household Income (HKD)</label>
+                    <select 
+                      value={targetIncome} 
+                      onChange={(e) => setTargetIncome(e.target.value)} 
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                    >
+                      <option value="All">All Income Brackets</option>
+                      <option value="<10k">Under $10,000</option>
+                      <option value="10k-20k">$10,000 - $20,000</option>
+                      <option value="20k-40k">$20,000 - $40,000</option>
+                      <option value="40k-80k">$40,000 - $80,000</option>
+                      <option value=">80k">Over $80,000</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-zinc-500 uppercase">Housing Type</label>
+                    <select 
+                      value={targetHousing} 
+                      onChange={(e) => setTargetHousing(e.target.value)} 
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                    >
+                      <option value="All">All Housing</option>
+                      <option value="Private Permanent">Private Permanent</option>
+                      <option value="Public Rental">Public Rental</option>
+                      <option value="Subsidized Sale">Subsidized Sale (HOS)</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 </div>

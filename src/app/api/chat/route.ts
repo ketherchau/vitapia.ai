@@ -61,8 +61,8 @@ export async function POST(request: Request) {
 
           // Compile chat history for context
           const chatHistory = messages
-            .filter((m: any) => m.role !== 'system') // Exclude the massive system prompt
-            .map((m: any) => `*${m.role === 'user' ? 'Visitor' : 'Vitapia'}*: ${m.content}`)
+            .filter((m: { role: string; content: string }) => m.role !== 'system') // Exclude the massive system prompt
+            .map((m: { role: string; content: string }) => `*${m.role === 'user' ? 'Visitor' : 'Vitapia'}*: ${m.content}`)
             .join('\n\n');
 
           const telegramMsg = `🚨 *New Vitapia.ai Chatbot Lead* 🚨\n\n📧 *Email:* \`${email}\`\n📅 *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' })}\n\n🌐 *Security & Telemetry:*\n📍 *IP Origin:* \`${ip}\`\n🌍 *Location:* ${geoInfo}\n📱 *Device UA:* \`${userAgent}\`\n\n💬 *Conversation History:*\n${chatHistory}`;

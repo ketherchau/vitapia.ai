@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { Analytics } from "@vercel/analytics/next"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
@@ -96,12 +97,12 @@ export default function Home() {
             </div>
             <span className="text-2xl cursor-pointer font-bold tracking-tight text-white text-shadow-hard hidden md:block">Vitapia.ai</span>
           </div>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-6 py-2.5 rounded-full border border-[#00E5FF]/30 bg-black/40 backdrop-blur-xl hover:bg-[#00E5FF]/20 hover:border-[#00E5FF]/60 transition-all text-sm font-semibold shadow-[0_0_15px_rgba(0,229,255,0.15)]"
+          <Link 
+            href="/login"
+            className="px-6 py-2.5 rounded-full border border-[#00E5FF]/30 bg-black/40 backdrop-blur-xl hover:bg-[#00E5FF]/20 hover:border-[#00E5FF]/60 transition-all text-sm font-semibold shadow-[0_0_15px_rgba(0,229,255,0.15)] text-white"
           >
-            Join Pilot
-          </button>
+            Login / Pilot
+          </Link>
         </nav>
 
         <div className="relative z-10 flex flex-col">
@@ -228,7 +229,7 @@ export default function Home() {
           <section className="py-32 px-6 bg-zinc-950 border-y border-zinc-900 relative overflow-hidden">
             {/* Tech Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-            
+
             <div className="max-w-6xl mx-auto relative z-10">
               <motion.div {...fadeUpConfig} className="mb-20 text-center md:text-left flex flex-col md:flex-row gap-8 items-end justify-between">
                 <div>
@@ -244,7 +245,7 @@ export default function Home() {
 
               <div className="space-y-6">
                 {/* Layer 1 */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -269,7 +270,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* Layer 2 */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -289,13 +290,13 @@ export default function Home() {
                       Relying purely on LLMs for financial predictions introduces massive hallucination risks. Vitapia bridges deep learning with hard algorithmic logic via a <strong className="text-white font-medium">Neuro-Symbolic Engine</strong>.
                     </p>
                     <p className="text-zinc-400 leading-relaxed font-light">
-                      The &quot;Symbolic&quot; layer is a deterministic physics engine that strictly calculates an agent&apos;s taxes, rent, MTR fares, and inflation impact down to the exact cent based on HK C&amp;SD economic formulas. The &quot;Neuro&quot; layer (the LLM) is then <em>only</em> permitted to calculate the emotional and psychographic variance on the remaining disposable income. 
+                      The &quot;Symbolic&quot; layer is a deterministic physics engine that strictly calculates an agent&apos;s taxes, rent, MTR fares, and inflation impact down to the exact cent based on HK C&amp;SD economic formulas. The &quot;Neuro&quot; layer (the LLM) is then <em>only</em> permitted to calculate the emotional and psychographic variance on the remaining disposable income.
                     </p>
                   </div>
                 </motion.div>
 
                 {/* Layer 3 */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -432,7 +433,7 @@ export default function Home() {
         <section className="min-h-screen flex items-center justify-center px-6 py-24 relative text-center">
           <motion.div {...fadeUpConfig} className="max-w-5xl w-full">
             <h2 className="text-5xl md:text-7xl font-bold mb-20 text-shadow-hard">B2B SaaS for <br/><span className="text-gradient">Decision Dominance.</span></h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
               <div className="p-12 rounded-[2rem] border border-zinc-700 bg-zinc-900/80 backdrop-blur-xl relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-full h-1 bg-[#00E5FF] group-hover:h-2 transition-all" />
@@ -462,7 +463,7 @@ export default function Home() {
         {/* Section 8.2: Optimisation & Forecast */}
         <section className="min-h-[120vh] flex flex-col items-center justify-center px-6 py-32 bg-black/60 backdrop-blur-md border-y border-zinc-900 relative overflow-hidden text-center z-10">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#00E5FF]/10 to-[#00FF85]/10 blur-[150px] rounded-full pointer-events-none z-0" />
-          
+
           <div className="relative z-10 w-full max-w-6xl mx-auto">
             <motion.div {...fadeUpConfig} className="mb-24">
               <h2 className="text-5xl md:text-7xl font-bold text-shadow-hard mb-8">
@@ -475,7 +476,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -491,7 +492,7 @@ export default function Home() {
                 </p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -511,7 +512,7 @@ export default function Home() {
         </section>
 
           {/* Section 8.5: Team */}
-        {/* TODO: Add team section back later 
+        {/* TODO: Add team section back later
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
           <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-[#00E5FF] text-gradient">Execution.</span></h2>
@@ -571,10 +572,10 @@ export default function Home() {
         */}
 
         {/* Section 8.7: Roadmap & Milestones */}
-        {/* TODO: Add team section back later 
+        {/* TODO: Add team section back later
         <section className="min-h-screen py-32 px-6 bg-black relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00FF85]/5 blur-[120px] rounded-full pointer-events-none" />
-          
+
           <div className="max-w-5xl mx-auto relative z-10">
             <motion.div {...fadeUpConfig} className="text-center mb-20">
               <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">The Path to <span className="text-gradient">Scale.</span></h2>
@@ -626,7 +627,7 @@ export default function Home() {
                   border: "border-[#00FF85]/30"
                 }
               ].map((item, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -635,7 +636,7 @@ export default function Home() {
                   className="relative"
                 >
                   <div className={`absolute -left-[41px] md:-left-[73px] top-0 w-5 h-5 rounded-full border-4 border-black ${item.bg.replace('/10', '')} shadow-[0_0_10px_currentColor] ${item.color.replace('text-', '')}`} />
-                  
+
                   <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl group hover:${item.border} transition-all duration-300`}>
                     <div className="flex items-start gap-6">
                       <div className={`hidden md:flex w-16 h-16 rounded-2xl ${item.bg} items-center justify-center ${item.color} shrink-0 group-hover:scale-110 transition-transform`}>

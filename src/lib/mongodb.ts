@@ -6,15 +6,10 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
-let cached = (global as any).mongoose;
+const cached = (global as { mongoose?: Record<string, unknown> }).mongoose || { conn: null, promise: null };
 
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+if (!(global as { mongoose?: Record<string, unknown> }).mongoose) {
+  (global as { mongoose?: Record<string, unknown> }).mongoose = cached;
 }
 
 async function dbConnect() {
@@ -25,11 +20,16 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
     };
 
+    console.log("[*] Establishing secure connection to AWS MongoDB Cluster...");
     cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
-      console.log("[*] MongoDB Atlas connection established successfully.");
+      console.log("[*] MongoDB connection established successfully.");
       return mongoose;
+    }).catch(err => {
+      console.error("[!] Database connection failed:", err.message);
+      throw err;
     });
   }
 

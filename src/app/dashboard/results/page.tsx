@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download, BarChart3, AlertCircle, Calendar } from "lucide-react";
+import { ArrowRight, Download, BarChart3, AlertCircle, Calendar, Users, Target, Activity } from "lucide-react";
 import Link from "next/link";
 
-const allSimulations = [
+const fallbackSimulations = [
   {
     id: "SIM-8492",
     name: "Sugar-Free Oat Milk Launch (TST)",
@@ -24,30 +25,48 @@ const allSimulations = [
     time: "09:12",
     metrics: { accuracy: "94.5%", participants: 500 },
     url: "/dashboard/results/SIM-8491"
-  },
-  {
-    id: "SIM-8490",
-    name: "Insurance Premium Pricing Elasticity",
-    audience: "HK High-Income (2,000 Agents)",
-    status: "Failed",
-    date: "2026-03-15",
-    time: "16:45",
-    metrics: null,
-    url: "#"
-  },
-  {
-    id: "SIM-8489",
-    name: "GBA Smart-Home Device Propensity",
-    audience: "GBA Middle-Class (5,000 Agents)",
-    status: "Completed",
-    date: "2026-03-10",
-    time: "11:00",
-    metrics: { accuracy: "91.8%", participants: 5000 },
-    url: "/dashboard/results/SIM-8489"
   }
 ];
 
+type SimulationData = {
+  id: string;
+  name: string;
+  audience: string;
+  status: string;
+  date: string;
+  time: string;
+  metrics: { accuracy: string; participants: number } | null;
+  url: string;
+};
+
 export default function ResultsList() {
+  const [simulations, setSimulations] = useState<SimulationData[]>(fallbackSimulations);
+
+  useEffect(() => {
+    fetch("/api/simulations")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.simulations && data.simulations.length > 0) {
+          const mapped = data.simulations.map((sim: Record<string, string | number>) => {
+            const dateStr = sim.created_at as string;
+            const dateObj = new Date(dateStr);
+            return {
+              id: String(sim.sim_id),
+              name: String(sim.name),
+              audience: String(sim.audience_profile),
+              status: String(sim.status),
+              date: dateObj.toISOString().split("T")[0],
+              time: dateObj.toTimeString().split("T")[1].substring(0, 5),
+              metrics: sim.status === "Completed" ? { accuracy: "TBD", participants: 1000 } : null,
+              url: sim.status === "Completed" ? `/dashboard/results/${sim.sim_id}` : "#"
+            };
+          });
+          setSimulations(mapped);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
   return (
     <div className="space-y-8 pb-32">
       <div className="flex items-center justify-between mb-8">
@@ -64,7 +83,7 @@ export default function ResultsList() {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {allSimulations.map((sim, i) => (
+        {simulations.map((sim, i) => (
           <motion.div 
             key={sim.id}
             initial={{ opacity: 0, y: 20 }}
@@ -74,16 +93,22 @@ export default function ResultsList() {
           >
             <div className="flex items-start gap-5">
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${
-                sim.status === "Completed" ? "bg-[#00FF85]/10 text-[#00FF85]" : "bg-red-500/10 text-red-500"
+                sim.status === "Completed" ? "bg-[#00FF85]/10 text-[#00FF85]" : 
+                sim.status === "Running" ? "bg-[#00E5FF]/10 text-[#00E5FF]" :
+                "bg-red-500/10 text-red-500"
               }`}>
-                {sim.status === "Completed" ? <BarChart3 className="w-7 h-7" /> : <AlertCircle className="w-7 h-7" />}
+                {sim.status === "Completed" ? <BarChart3 className="w-7 h-7" /> : 
+                 sim.status === "Running" ? <Activity className="w-7 h-7 animate-pulse" /> : 
+                 <AlertCircle className="w-7 h-7" />}
               </div>
               
               <div>
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-xs font-mono text-zinc-500">{sim.id}</span>
                   <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                    sim.status === "Completed" ? "bg-[#00FF85]/20 text-[#00FF85]" : "bg-red-500/20 text-red-500"
+                    sim.status === "Completed" ? "bg-[#00FF85]/20 text-[#00FF85]" : 
+                    sim.status === "Running" ? "bg-[#00E5FF]/20 text-[#00E5FF]" :
+                    "bg-red-500/20 text-red-500"
                   }`}>
                     {sim.status}
                   </span>
@@ -125,5 +150,4 @@ export default function ResultsList() {
   );
 }
 
-// Needed import
-import { Users, Target } from "lucide-react";
+

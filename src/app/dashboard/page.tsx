@@ -1,16 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Activity, Clock, Zap, ArrowRight, BarChart3, AlertCircle, Users } from "lucide-react";
 import Link from "next/link";
 
-const recentSimulations = [
+const fallbackSimulations: SimulationData[] = [
   {
     id: "SIM-8492",
     name: "Sugar-Free Oat Milk Launch",
     audience: "HK Baseline (1,000 Agents)",
     status: "Completed",
     date: "2026-03-19",
-    cost: "100 Credits"
+    cost: "100 Credits",
+    url: "/dashboard/results/SIM-8492"
   },
   {
     id: "SIM-8491",
@@ -18,19 +20,49 @@ const recentSimulations = [
     audience: "Kowloon Youth (500 Agents)",
     status: "Completed",
     date: "2026-03-18",
-    cost: "50 Credits"
-  },
-  {
-    id: "SIM-8490",
-    name: "Insurance Premium Pricing Elasticity",
-    audience: "HK High-Income (2,000 Agents)",
-    status: "Failed (API Timeout)",
-    date: "2026-03-15",
-    cost: "Refunded"
+    cost: "50 Credits",
+    url: "/dashboard/results/SIM-8491"
   }
 ];
 
+type SimulationData = {
+  id: string;
+  name: string;
+  audience: string;
+  status: string;
+  date: string;
+  cost: string;
+  url: string;
+};
+
 export default function DashboardOverview() {
+  const [simulations, setSimulations] = useState<SimulationData[]>(fallbackSimulations);
+
+  useEffect(() => {
+    fetch("/api/simulations")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.simulations && data.simulations.length > 0) {
+          // Map DB models to UI format
+          const mapped = data.simulations.map((sim: Record<string, string | number>) => {
+            const dateStr = sim.created_at as string;
+            const dateObj = new Date(dateStr);
+            return {
+              id: String(sim.sim_id),
+              name: String(sim.name),
+              audience: String(sim.audience_profile),
+              status: String(sim.status),
+              date: dateObj.toISOString().split("T")[0],
+              cost: `${sim.cost_credits} Credits`,
+              url: sim.status === "Completed" ? `/dashboard/results/${sim.sim_id}` : "#"
+            };
+          });
+          setSimulations(mapped.slice(0, 5)); // show latest 5
+        }
+      })
+      .catch(console.error);
+  }, []);
+
   return (
     <div className="space-y-8 pb-20">
       {/* Welcome Banner */}
@@ -98,7 +130,7 @@ export default function DashboardOverview() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/50">
-              {recentSimulations.map((sim, i) => (
+              {simulations.map((sim, i) => (
                 <tr key={i} className="hover:bg-zinc-900/50 transition-colors group">
                   <td className="p-5 text-sm font-medium text-zinc-400">{sim.id}</td>
                   <td className="p-5 text-sm font-bold text-white">{sim.name}</td>
@@ -106,16 +138,20 @@ export default function DashboardOverview() {
                   <td className="p-5 text-sm text-zinc-500">{sim.date}</td>
                   <td className="p-5">
                     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
-                      sim.status === "Completed" ? "bg-[#00FF85]/10 text-[#00FF85]" : "bg-red-500/10 text-red-500"
+                      sim.status === "Completed" ? "bg-[#00FF85]/10 text-[#00FF85]" : 
+                      sim.status === "Running" ? "bg-[#00E5FF]/10 text-[#00E5FF]" :
+                      "bg-zinc-500/10 text-zinc-500"
                     }`}>
-                      {sim.status === "Completed" ? <BarChart3 className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                      {sim.status === "Completed" ? <BarChart3 className="w-3 h-3" /> : 
+                       sim.status === "Running" ? <Activity className="w-3 h-3 animate-pulse" /> : 
+                       <AlertCircle className="w-3 h-3" />}
                       {sim.status}
                     </span>
                   </td>
                   <td className="p-5 text-right">
-                    <button className="opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium text-[#00E5FF] hover:underline flex items-center justify-end gap-1 ml-auto">
+                    <Link href={sim.url || "#"} className={`opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium ${sim.status === "Completed" ? "text-[#00E5FF] hover:underline" : "text-zinc-600 cursor-not-allowed"} flex items-center justify-end gap-1 ml-auto`}>
                       View Report <ArrowRight className="w-4 h-4" />
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

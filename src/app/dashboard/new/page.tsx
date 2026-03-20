@@ -8,6 +8,8 @@ import Link from "next/link";
 export default function NewSimulation() {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [projectName, setProjectName] = useState("");
+  const [scenarioPrompt, setScenarioPrompt] = useState("");
   const [questions, setQuestions] = useState([
     { id: 1, text: "", options: ["", ""] }
   ]);
@@ -38,14 +40,54 @@ export default function NewSimulation() {
     }
   };
 
-  const handleLaunch = () => {
+  const updateQuestionText = (qId: number, text: string) => {
+    setQuestions(questions.map(q => q.id === qId ? { ...q, text } : q));
+  };
+
+  const updateOptionText = (qId: number, idx: number, optText: string) => {
+    setQuestions(questions.map(q => {
+      if (q.id === qId) {
+        const newOpts = [...q.options];
+        newOpts[idx] = optText;
+        return { ...q, options: newOpts };
+      }
+      return q;
+    }));
+  };
+
+  const handleLaunch = async () => {
+    if (!projectName || !scenarioPrompt || questions.some(q => !q.text || q.options.some(opt => !opt))) {
+      alert("Please fill out all fields before launching.");
+      return;
+    }
+
     setIsLoading(true);
-    // Mock simulation job creation delay
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/simulations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectName,
+          scenarioPrompt,
+          questions: questions.map(q => ({
+            q_id: `Q${q.id}`,
+            text: q.text,
+            options: q.options
+          }))
+        })
+      });
+
+      if (res.ok) {
+        alert("Pulse Check Simulation Launched! The orchestrator is spinning up 1,000 agents.");
+        window.location.href = "/dashboard";
+      } else {
+        alert("Failed to launch simulation.");
+      }
+    } catch {
+      alert("Network error.");
+    } finally {
       setIsLoading(false);
-      alert("Pulse Check Simulation Launched! The orchestrator is spinning up 1,000 agents.");
-      window.location.href = "/dashboard";
-    }, 2000);
+    }
   };
 
   return (
@@ -91,7 +133,13 @@ export default function NewSimulation() {
           >
             <div className="space-y-4">
               <label className="text-sm font-bold uppercase tracking-widest text-zinc-400">Project Name</label>
-              <input type="text" placeholder="e.g., Q3 Sugar-Free Oat Milk Launch (TST)" className="w-full px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-[#00E5FF] focus:outline-none text-white text-lg placeholder:text-zinc-600" />
+              <input 
+                type="text" 
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                placeholder="e.g., Q3 Sugar-Free Oat Milk Launch (TST)" 
+                className="w-full px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-[#00E5FF] focus:outline-none text-white text-lg placeholder:text-zinc-600" 
+              />
             </div>
 
             <div className="space-y-4">
@@ -115,6 +163,8 @@ export default function NewSimulation() {
               <p className="text-sm text-zinc-500">Describe the product, price, and context. The agents will read this before answering your questions.</p>
               <textarea 
                 rows={5} 
+                value={scenarioPrompt}
+                onChange={(e) => setScenarioPrompt(e.target.value)}
                 placeholder="We are launching a new sugar-free oat milk beverage priced at HK$32 in Tsim Sha Tsui. The main competitor is currently priced at HK$25 but contains high sugar..."
                 className="w-full px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-[#00E5FF] focus:outline-none text-white text-base placeholder:text-zinc-600 resize-none"
               />
@@ -151,7 +201,13 @@ export default function NewSimulation() {
                 </div>
 
                 <div className="space-y-3">
-                  <input type="text" placeholder="e.g., Would you buy this product weekly at HK$32?" className="w-full px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-[#00FF85] focus:outline-none text-white text-lg placeholder:text-zinc-600" />
+                  <input 
+                    type="text" 
+                    value={q.text}
+                    onChange={(e) => updateQuestionText(q.id, e.target.value)}
+                    placeholder="e.g., Would you buy this product weekly at HK$32?" 
+                    className="w-full px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-[#00FF85] focus:outline-none text-white text-lg placeholder:text-zinc-600" 
+                  />
                 </div>
 
                 <div className="space-y-4">
@@ -163,6 +219,8 @@ export default function NewSimulation() {
                       </div>
                       <input 
                         type="text" 
+                        value={opt}
+                        onChange={(e) => updateOptionText(q.id, oIndex, e.target.value)}
                         placeholder={`Option ${oIndex + 1}`}
                         className="flex-1 px-5 py-3 rounded-xl bg-black border border-zinc-800 focus:border-[#00FF85] focus:outline-none text-white placeholder:text-zinc-700" 
                       />

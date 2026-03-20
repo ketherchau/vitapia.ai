@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         sim_id, 
-        num_agents: 1000 // Instruct the orchestrator to run a large population
+        num_agents: 100 // Reduced to 100 for pitch stability and faster execution
       })
     }).catch(err => console.error("Webhook to orchestrator failed:", err));
 

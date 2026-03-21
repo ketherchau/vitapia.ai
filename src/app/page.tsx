@@ -7,7 +7,9 @@ import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
 import ValidationChart3D from "@/components/ValidationChart3D";
-import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Target, Info, Linkedin, Github, Cpu, LineChart, Rocket, Terminal } from "lucide-react";
+import MarketValuationChart from "@/components/MarketValuationChart";
+import CompetitorComparison from "@/components/CompetitorComparison";
+import { ArrowRight, BarChart3, Users, Zap, Layers, Globe, Database, BrainCircuit, Activity, HeartHandshake, Box, Info, Linkedin, Github, Cpu, LineChart, Terminal, Building2 } from "lucide-react";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -224,6 +226,22 @@ export default function Home() {
             </div>
           </section>
 
+          {/* Section 4.2: Competitor Comparison */}
+          <section className="min-h-screen flex items-center px-6 md:px-24 py-24 relative overflow-hidden bg-gradient-to-b from-black to-zinc-950">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,229,255,0.05),transparent_70%)] pointer-events-none" />
+            <motion.div {...fadeUpConfig} className="max-w-7xl mx-auto relative z-10 w-full">
+              <div className="text-center mb-16">
+                <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard leading-tight">
+                  The New Standard in <span className="text-gradient">Prediction.</span>
+                </h2>
+                <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto font-light">
+                  How Vitapia compares against legacy methods and generic API wrappers.
+                </p>
+              </div>
+              <CompetitorComparison />
+            </motion.div>
+          </section>
+
           {/* Section 4.5: Technical Architecture / White Paper */}
           <section className="py-32 px-6 bg-zinc-950 border-y border-zinc-900 relative overflow-hidden">
             {/* Tech Grid Background */}
@@ -408,23 +426,7 @@ export default function Home() {
           <section className="py-32 px-6 bg-black/60 backdrop-blur-lg border-y border-zinc-900 text-center">
             <motion.div {...fadeUpConfig} className="max-w-5xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-16">A <span className="text-[#00E5FF]">US$20B+</span> Market Ready for Disruption.</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md">
-                  <Target className="w-12 h-12 text-[#00E5FF] mb-6 mx-auto" />
-                  <h3 className="text-4xl font-bold text-white mb-2">TAM</h3>
-                  <p className="text-zinc-400 text-lg">Global market research is a US$100B+ industry.</p>
-                </div>
-                <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md transform md:-translate-y-8 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
-                  <Globe className="w-12 h-12 text-[#00FF85] mb-6 mx-auto" />
-                  <h3 className="text-4xl font-bold text-white mb-2">SAM</h3>
-                  <p className="text-zinc-400 text-lg">Asia is the fastest-growing segment (~US$20B+).</p>
-                </div>
-                <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md">
-                  <Users className="w-12 h-12 text-[#00E5FF] mb-6 mx-auto" />
-                  <h3 className="text-4xl font-bold text-white mb-2">SOM</h3>
-                  <p className="text-zinc-400 text-lg">Targeting HK/GBA FMCG brands, agencies, and public policy.</p>
-                </div>
-              </div>
+              <MarketValuationChart />
             </motion.div>
           </section>
 
@@ -511,7 +513,6 @@ export default function Home() {
         </section>
 
           {/* Section 8.5: Team */}
-        {/* TODO: Add team section back later 
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-black/40 border-y border-zinc-900 backdrop-blur-xl relative z-10">
           <motion.div {...fadeUpConfig} className="text-center mb-16 max-w-4xl mx-auto">
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-hard">Built for <span className="text-[#00E5FF] text-gradient">Execution.</span></h2>
@@ -525,21 +526,24 @@ export default function Home() {
                 role: "CEO & Technical Co-Founder",
                 bio: "Visionary behind the Vitapia prediction engine. Deep expertise in LLM orchestration and translating complex behavioral architectures into scalable enterprise solutions.",
                 image: "https://media.licdn.com/dms/image/v2/D5603AQEqysKrmJxZ4w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1681297646774?e=1775692800&v=beta&t=S-w30eWOpSOT3py9woroNkpP97rCR6M9K98gIRpLDj4",
-                color: "from-[#00E5FF]/20"
+                color: "from-[#00E5FF]/20",
+                pastExperience: "Ex-Tencent, AWS"
               },
               {
                 name: "JOLIN NG",
                 role: "CMO & Co-Founder",
                 bio: "Venture builder with proven experience launching startups and scaling enterprise growth. Combines a deep understanding of go-to-market, partnership strategy, and community building to bridge technology and real-world impact across diverse markets.",
                 image: "https://media.licdn.com/dms/image/v2/C4E03AQFU_K1q0Uookg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1517532686884?e=1775692800&v=beta&t=z3sCpMb_0lfPJH8Z6VcqvutlMi3iODmuy31EJbHk9Jw",
-                color: "from-[#00FF85]/20"
+                color: "from-[#00FF85]/20",
+                pastExperience: "Ex-Ogilvy, HKSTP"
               },
               {
                 name: "JOSEPH CHENG",
                 role: "CTO & AI Co-Founder",
                 bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. Builds the ETL pipelines bridging messy reality with synthetic logic.",
                 image: "https://media.licdn.com/dms/image/v2/C5603AQF1pt-pc8rO-w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1598077113377?e=1775692800&v=beta&t=_6yz93TiJQj4iqvh-aqS-e0iwHvaMgDiNQ0CITTtBZs",
-                color: "from-[#00E5FF]/20"
+                color: "from-[#00E5FF]/20",
+                pastExperience: "Ex-Google, Microsoft"
               }
             ].map((member, i) => (
               <motion.div
@@ -558,7 +562,12 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
-                <p className="text-[#00E5FF] font-medium text-sm mb-4 tracking-wider uppercase">{member.role}</p>
+                <p className="text-[#00E5FF] font-medium text-sm mb-2 tracking-wider uppercase">{member.role}</p>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-3 py-1 text-xs font-semibold text-zinc-300 bg-zinc-800 rounded-full border border-zinc-700 flex items-center gap-2">
+                    <Building2 className="w-3 h-3 text-[#00E5FF]" /> {member.pastExperience}
+                  </span>
+                </div>
                 <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">{member.bio}</p>
                 <div className="flex gap-4 opacity-50 group-hover:opacity-100 transition-opacity">
                   <a href="#" className="p-2 rounded-full bg-zinc-800 hover:bg-[#00E5FF]/20 hover:text-[#00E5FF] transition-colors"><Linkedin className="w-5 h-5" /></a>
@@ -568,7 +577,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-        */}
 
         {/* Section 8.7: Roadmap & Milestones */}
         {/* TODO: Add team section back later 
@@ -600,7 +608,7 @@ export default function Home() {
                   time: "Months 3-4",
                   title: "B2B Enterprise Pilot Programs",
                   desc: "Onboard two local Hong Kong FMCG (Fast-Moving Consumer Goods) brands. Ingest their historical CRM data to spawn highly customized, hyper-local consumer segments. Run blind predictive scenarios against their upcoming product launches.",
-                  icon: Target,
+                  icon:
                   color: "text-[#00FF85]",
                   bg: "bg-[#00FF85]/10",
                   border: "border-[#00FF85]/30"
@@ -620,7 +628,7 @@ export default function Home() {
                   time: "Month 6",
                   title: "CIP Acceleration",
                   desc: "Publish the verified pilot results. Finalize PDPO compliance audits. Pitch the fully scaled Enterprise SaaS platform at Demo Day, securing seed funding and transition into the Incubation Programme.",
-                  icon: Rocket,
+                  icon:
                   color: "text-[#00FF85]",
                   bg: "bg-[#00FF85]/10",
                   border: "border-[#00FF85]/30"

@@ -2,78 +2,48 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, X, Users, ShieldCheck, MapPin, Target, Briefcase } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
-type Competitor = {
-  name: string;
-  enterpriseReady: { value: boolean; label: string };
-  multiAgent: { value: boolean; label: string };
-  asiaFocus: { value: boolean; label: string };
-  compliance: { value: boolean; label: string };
-  businessSaaS: { value: boolean; label: string };
-  color: string;
-  highlight?: boolean;
-};
-
-const competitors: Competitor[] = [
+const competitors = [
   {
-    name: 'Aaru',
-    enterpriseReady: { value: true, label: 'Proven (Unicorn)' },
-    multiAgent: { value: true, label: 'Dynamic Populations' },
-    asiaFocus: { value: false, label: 'US-Centric' },
-    compliance: { value: true, label: 'US/EU Standards' },
-    businessSaaS: { value: true, label: 'Enterprise Platform' },
-    color: '#a1a1aa', // zinc-400
-  },
-  {
-    name: 'Ditto / Evidenza',
-    enterpriseReady: { value: true, label: 'Enterprise Focus' },
-    multiAgent: { value: false, label: 'Static Personas' },
-    asiaFocus: { value: false, label: 'Global / US Based' },
-    compliance: { value: true, label: 'Standard Compliance' },
-    businessSaaS: { value: true, label: 'B2B SaaS' },
-    color: '#a1a1aa', 
-  },
-  {
-    name: 'Bauhinia AI (Aivilization)',
-    enterpriseReady: { value: false, label: 'Academic / Sandbox' },
-    multiAgent: { value: true, label: 'Social Simulations' },
-    asiaFocus: { value: true, label: 'HK Based' },
-    compliance: { value: false, label: 'Research Focused' },
-    businessSaaS: { value: false, label: 'Lacks SaaS Model' },
-    color: '#a1a1aa', 
-  },
-  {
+    id: 'vitapia',
     name: 'Vitapia',
-    enterpriseReady: { value: true, label: 'Commercial Ready' },
-    multiAgent: { value: true, label: 'Dynamic Multi-Agent' },
-    asiaFocus: { value: true, label: 'Deep Localized Data (C&SD)' },
-    compliance: { value: true, label: 'PDPO-Compliant' },
-    businessSaaS: { value: true, label: 'Decision Dominance SaaS' },
-    color: '#00E5FF', // cyan
-    highlight: true,
+    description: 'Dynamic Enterprise & Asia-Localized',
+    position: { left: '75%', top: '25%' },
+    isVitapia: true,
   },
-];
-
-type FeatureKey = 'enterpriseReady' | 'multiAgent' | 'asiaFocus' | 'compliance' | 'businessSaaS';
-
-const features: { key: FeatureKey; label: string; icon: React.ElementType; description: string }[] = [
-  { key: 'enterpriseReady', label: 'Enterprise Ready', icon: Briefcase, description: 'Production-grade for large-scale operations' },
-  { key: 'businessSaaS', label: 'Decision Dominance SaaS', icon: Target, description: 'Actionable business predictions for brands' },
-  { key: 'multiAgent', label: 'Dynamic Multi-Agent', icon: Users, description: 'Interacting populations, not just static personas' },
-  { key: 'asiaFocus', label: 'Asia / Localized Data', icon: MapPin, description: 'Deep demographic roleplay for HK/Greater Bay Area' },
-  { key: 'compliance', label: 'Local Compliance', icon: ShieldCheck, description: 'PDPO & regional data sovereignty alignment' },
+  {
+    id: 'aaru',
+    name: 'Aaru',
+    description: 'Dynamic Enterprise & US-centric',
+    position: { left: '25%', top: '25%' },
+    isVitapia: false,
+  },
+  {
+    id: 'bauhinia',
+    name: 'Bauhinia AI (Aivilization)',
+    description: 'Academic Sandbox & HK/Asia based',
+    position: { left: '75%', top: '75%' },
+    isVitapia: false,
+  },
+  {
+    id: 'ditto',
+    name: 'Ditto / Evidenza',
+    description: 'Static Personas & Global/US',
+    position: { left: '25%', top: '75%' },
+    isVitapia: false,
+  }
 ];
 
 export default function CompetitorComparison() {
   return (
-    <div className="w-full max-w-7xl mx-auto mt-24 relative z-10 px-4">
+    <div className="w-full max-w-6xl mx-auto mt-24 relative z-10 px-4 md:px-8">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-12"
+        className="text-center mb-16"
       >
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
           The <span className="text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">Vitapia</span> Advantage
@@ -88,75 +58,86 @@ export default function CompetitorComparison() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="overflow-x-auto rounded-[2rem] border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl shadow-2xl p-2 sm:p-6"
+        className="relative w-full aspect-square md:aspect-[16/9] lg:aspect-[2/1] rounded-3xl border border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl shadow-2xl p-4 md:p-8 overflow-hidden"
       >
-        <table className="w-full text-left min-w-[900px]">
-          <thead>
-            <tr>
-              <th className="p-4 sm:p-6 text-xl text-zinc-400 font-medium border-b border-zinc-800/50 w-1/4">Capability</th>
-              {competitors.map((comp) => (
-                <th key={comp.name} className={`p-4 sm:p-6 text-xl sm:text-2xl font-bold border-b border-zinc-800/50 text-center w-[18%] ${comp.highlight ? 'text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.4)]' : 'text-zinc-100'}`}>
-                  {comp.name}
-                  {comp.highlight && (
-                    <div className="text-sm font-normal text-cyan-400/80 mt-1 drop-shadow-none">
-                      Our Edge
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-zinc-800/50">
-            {features.map((feat, idx) => (
-              <motion.tr 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 + (idx * 0.1) }}
-                key={feat.key} 
-                className="group hover:bg-zinc-900/50 transition-colors"
-              >
-                <td className="p-4 sm:p-6">
-                  <div className="flex items-center gap-3 font-semibold text-zinc-200 text-lg">
-                    <feat.icon className="w-5 h-5 text-cyan-500" />
-                    {feat.label}
-                  </div>
-                  <div className="text-sm text-zinc-500 mt-1 ml-8">
-                    {feat.description}
-                  </div>
-                </td>
-                {competitors.map((comp) => {
-                  const data = comp[feat.key];
-                  return (
-                    <td 
-                      key={`${feat.key}-${comp.name}`} 
-                      className={`p-4 sm:p-6 text-center ${
-                        comp.highlight 
-                          ? 'bg-cyan-950/20 border-x border-cyan-500/20 shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]' 
-                          : ''
-                      }`}
-                    >
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        {data.value ? (
-                          <div className={`p-1.5 rounded-full ${comp.highlight ? 'bg-cyan-500/20 text-cyan-400' : 'bg-zinc-800 text-zinc-300'}`}>
-                            <Check className="w-5 h-5" />
-                          </div>
-                        ) : (
-                          <div className="p-1.5 rounded-full bg-zinc-900 text-zinc-600">
-                            <X className="w-5 h-5" />
-                          </div>
-                        )}
-                        <span className={`text-sm font-medium ${comp.highlight ? 'text-cyan-100' : 'text-zinc-400'}`}>
-                          {data.label}
-                        </span>
-                      </div>
-                    </td>
-                  );
-                })}
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
+        {/* Grid Background Lines */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+        {/* Quadrant Crosshairs */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+          <div className="w-full h-[1px] bg-zinc-700/80 absolute top-1/2 shadow-[0_0_10px_rgba(255,255,255,0.1)]"></div>
+          <div className="h-full w-[1px] bg-zinc-700/80 absolute left-1/2 shadow-[0_0_10px_rgba(255,255,255,0.1)]"></div>
+        </div>
+
+        {/* Axis Labels */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 text-zinc-400 text-xs md:text-sm font-semibold tracking-widest uppercase bg-zinc-950/80 px-3 py-1 rounded-full border border-zinc-800/50 z-10">
+          Dynamic Multi-Agent / Commercial
+        </div>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-zinc-500 text-xs md:text-sm font-semibold tracking-widest uppercase bg-zinc-950/80 px-3 py-1 rounded-full border border-zinc-800/50 z-10">
+          Static Personas / Sandbox
+        </div>
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-xs md:text-sm font-semibold tracking-widest uppercase -rotate-90 origin-center bg-zinc-950/80 px-3 py-1 rounded-full border border-zinc-800/50 z-10 whitespace-nowrap">
+          US / Global Focus
+        </div>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 text-xs md:text-sm font-semibold tracking-widest uppercase rotate-90 origin-center bg-zinc-950/80 px-3 py-1 rounded-full border border-zinc-800/50 z-10 whitespace-nowrap">
+          Asia / Localized
+        </div>
+
+        {/* Quadrant Watermarks */}
+        <div className="absolute top-[15%] right-[15%] text-cyan-500/10 font-black text-2xl md:text-4xl lg:text-5xl text-center pointer-events-none z-0 tracking-tighter w-1/3 leading-tight">
+          THE SWEET SPOT<br/>
+          <span className="text-lg md:text-2xl lg:text-3xl text-cyan-400/20 font-bold uppercase tracking-widest mt-2 block">Decision Dominance</span>
+        </div>
+
+        {/* Competitor Nodes */}
+        {competitors.map((comp, idx) => (
+          <motion.div
+            key={comp.id}
+            initial={{ opacity: 0, scale: 0, x: '-50%', y: '-50%' }}
+            whileInView={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 + (idx * 0.15), type: "spring", stiffness: 200, damping: 20 }}
+            className="absolute z-20 flex flex-col items-center justify-center group"
+            style={{ left: comp.position.left, top: comp.position.top }}
+          >
+            {/* The Node/Point */}
+            <div className={`relative flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-2 transition-transform duration-300 group-hover:scale-110 ${
+              comp.isVitapia 
+                ? 'bg-cyan-950 border-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.6)]' 
+                : 'bg-zinc-900 border-zinc-600 shadow-xl'
+            }`}>
+              {comp.isVitapia ? (
+                <BrainCircuit className="w-6 h-6 md:w-8 md:h-8 text-cyan-400" />
+              ) : (
+                <div className="w-3 h-3 md:w-4 md:h-4 bg-zinc-500 rounded-full" />
+              )}
+              
+              {/* Pulse effect for Vitapia */}
+              {comp.isVitapia && (
+                <div className="absolute inset-0 rounded-full border-2 border-cyan-400/50 animate-ping" />
+              )}
+            </div>
+
+            {/* Label Card */}
+            <div className={`mt-4 p-3 md:p-4 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 w-48 md:w-64 text-center ${
+              comp.isVitapia 
+                ? 'bg-cyan-950/40 border-cyan-500/40 group-hover:border-cyan-400 group-hover:bg-cyan-900/40' 
+                : 'bg-zinc-900/80 border-zinc-800 group-hover:border-zinc-600'
+            }`}>
+              <h3 className={`font-bold text-base md:text-lg mb-1 ${
+                comp.isVitapia ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]' : 'text-zinc-200'
+              }`}>
+                {comp.name}
+              </h3>
+              <p className={`text-xs md:text-sm font-medium ${
+                comp.isVitapia ? 'text-cyan-100/80' : 'text-zinc-500'
+              }`}>
+                {comp.description}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+
       </motion.div>
     </div>
   );

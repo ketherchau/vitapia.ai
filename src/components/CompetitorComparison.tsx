@@ -1,96 +1,163 @@
 "use client";
 
 import React from 'react';
-import { Check, X, Building2, BrainCircuit, Users, Zap, Gauge } from 'lucide-react';
-
-type FeatureKey = 'speed' | 'cost' | 'bias' | 'scale' | 'dynamic';
+import { motion } from 'framer-motion';
+import { Check, X, Users, ShieldCheck, MapPin, Target, Briefcase } from 'lucide-react';
 
 type Competitor = {
   name: string;
-  speed: string;
-  cost: string;
-  bias: string;
-  scale: string;
-  dynamic: boolean;
+  enterpriseReady: { value: boolean; label: string };
+  multiAgent: { value: boolean; label: string };
+  asiaFocus: { value: boolean; label: string };
+  compliance: { value: boolean; label: string };
+  businessSaaS: { value: boolean; label: string };
   color: string;
   highlight?: boolean;
 };
 
 const competitors: Competitor[] = [
   {
-    name: 'Traditional Agencies',
-    speed: 'Weeks / Months',
-    cost: 'High ($50k+)',
-    bias: 'High (Self-reported)',
-    scale: 'Limited (N=100-1000)',
-    dynamic: false,
-    color: '#ef4444', // red
+    name: 'Aaru',
+    enterpriseReady: { value: true, label: 'Proven (Unicorn)' },
+    multiAgent: { value: true, label: 'Dynamic Populations' },
+    asiaFocus: { value: false, label: 'US-Centric' },
+    compliance: { value: true, label: 'US/EU Standards' },
+    businessSaaS: { value: true, label: 'Enterprise Platform' },
+    color: '#a1a1aa', // zinc-400
   },
   {
-    name: 'Generic LLM APIs',
-    speed: 'Instant',
-    cost: 'Low ($1k)',
-    bias: 'High (Hallucinations)',
-    scale: 'High (Stateless)',
-    dynamic: false,
-    color: '#eab308', // yellow
+    name: 'Ditto / Evidenza',
+    enterpriseReady: { value: true, label: 'Enterprise Focus' },
+    multiAgent: { value: false, label: 'Static Personas' },
+    asiaFocus: { value: false, label: 'Global / US Based' },
+    compliance: { value: true, label: 'Standard Compliance' },
+    businessSaaS: { value: true, label: 'B2B SaaS' },
+    color: '#a1a1aa', 
   },
   {
-    name: 'Vitapia.ai',
-    speed: '24 Hours',
-    cost: 'Medium ($5k)',
-    bias: 'Low (Math Validated)',
-    scale: 'Massive (N=10,000+)',
-    dynamic: true,
+    name: 'Bauhinia AI (Aivilization)',
+    enterpriseReady: { value: false, label: 'Academic / Sandbox' },
+    multiAgent: { value: true, label: 'Social Simulations' },
+    asiaFocus: { value: true, label: 'HK Based' },
+    compliance: { value: false, label: 'Research Focused' },
+    businessSaaS: { value: false, label: 'Lacks SaaS Model' },
+    color: '#a1a1aa', 
+  },
+  {
+    name: 'Vitapia',
+    enterpriseReady: { value: true, label: 'Commercial Ready' },
+    multiAgent: { value: true, label: 'Dynamic Multi-Agent' },
+    asiaFocus: { value: true, label: 'Deep Localized Data (C&SD)' },
+    compliance: { value: true, label: 'PDPO-Compliant' },
+    businessSaaS: { value: true, label: 'Decision Dominance SaaS' },
     color: '#00E5FF', // cyan
     highlight: true,
   },
 ];
 
-const features: { key: FeatureKey; label: string; icon: React.ElementType }[] = [
-  { key: 'speed', label: 'Turnaround Time', icon: Zap },
-  { key: 'cost', label: 'Average Cost', icon: Building2 },
-  { key: 'bias', label: 'Data Bias/Error', icon: BrainCircuit },
-  { key: 'scale', label: 'Sample Scale', icon: Users },
-  { key: 'dynamic', label: 'Dynamic Interactions', icon: Gauge },
+type FeatureKey = 'enterpriseReady' | 'multiAgent' | 'asiaFocus' | 'compliance' | 'businessSaaS';
+
+const features: { key: FeatureKey; label: string; icon: React.ElementType; description: string }[] = [
+  { key: 'enterpriseReady', label: 'Enterprise Ready', icon: Briefcase, description: 'Production-grade for large-scale operations' },
+  { key: 'businessSaaS', label: 'Decision Dominance SaaS', icon: Target, description: 'Actionable business predictions for brands' },
+  { key: 'multiAgent', label: 'Dynamic Multi-Agent', icon: Users, description: 'Interacting populations, not just static personas' },
+  { key: 'asiaFocus', label: 'Asia / Localized Data', icon: MapPin, description: 'Deep demographic roleplay for HK/Greater Bay Area' },
+  { key: 'compliance', label: 'Local Compliance', icon: ShieldCheck, description: 'PDPO & regional data sovereignty alignment' },
 ];
 
 export default function CompetitorComparison() {
   return (
-    <div className="w-full max-w-6xl mx-auto mt-20 relative z-10">
-      <div className="overflow-x-auto rounded-[2rem] border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl shadow-2xl p-6">
-        <table className="w-full text-left min-w-[800px]">
+    <div className="w-full max-w-7xl mx-auto mt-24 relative z-10 px-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-12"
+      >
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+          The <span className="text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">Vitapia</span> Advantage
+        </h2>
+        <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
+          The first commercial, enterprise-ready multi-agent population simulator in Asia.
+        </p>
+      </motion.div>
+
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="overflow-x-auto rounded-[2rem] border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl shadow-2xl p-2 sm:p-6"
+      >
+        <table className="w-full text-left min-w-[900px]">
           <thead>
             <tr>
-              <th className="p-6 text-xl text-zinc-400 font-medium">Comparison Vector</th>
+              <th className="p-4 sm:p-6 text-xl text-zinc-400 font-medium border-b border-zinc-800/50 w-1/4">Capability</th>
               {competitors.map((comp) => (
-                <th key={comp.name} className={`p-6 text-2xl font-bold ${comp.highlight ? 'text-[#00E5FF] drop-shadow-[0_0_10px_rgba(0,229,255,0.3)]' : 'text-white'}`}>
+                <th key={comp.name} className={`p-4 sm:p-6 text-xl sm:text-2xl font-bold border-b border-zinc-800/50 text-center w-[18%] ${comp.highlight ? 'text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.4)]' : 'text-zinc-100'}`}>
                   {comp.name}
+                  {comp.highlight && (
+                    <div className="text-sm font-normal text-cyan-400/80 mt-1 drop-shadow-none">
+                      Our Edge
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-800">
-            {features.map((feat) => (
-              <tr key={feat.key} className="group hover:bg-zinc-900/50 transition-colors">
-                <td className="p-6 font-semibold text-zinc-300 flex items-center gap-3">
-                  <feat.icon className="w-5 h-5 text-zinc-500" />
-                  {feat.label}
+          <tbody className="divide-y divide-zinc-800/50">
+            {features.map((feat, idx) => (
+              <motion.tr 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 + (idx * 0.1) }}
+                key={feat.key} 
+                className="group hover:bg-zinc-900/50 transition-colors"
+              >
+                <td className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 font-semibold text-zinc-200 text-lg">
+                    <feat.icon className="w-5 h-5 text-cyan-500" />
+                    {feat.label}
+                  </div>
+                  <div className="text-sm text-zinc-500 mt-1 ml-8">
+                    {feat.description}
+                  </div>
                 </td>
-                {competitors.map((comp) => (
-                  <td key={`${feat.key}-${comp.name}`} className={`p-6 text-lg ${comp.highlight ? 'text-white font-medium bg-[#00E5FF]/5 rounded-xl border border-[#00E5FF]/10 shadow-[inset_0_0_15px_rgba(0,229,255,0.05)]' : 'text-zinc-400'}`}>
-                    {typeof comp[feat.key as keyof Competitor] === 'boolean' ? (
-                      comp[feat.key as keyof Competitor] ? <Check className="w-6 h-6 text-green-500" /> : <X className="w-6 h-6 text-red-500" />
-                    ) : (
-                      comp[feat.key as keyof Competitor] as React.ReactNode
-                    )}
-                  </td>
-                ))}
-              </tr>
+                {competitors.map((comp) => {
+                  const data = comp[feat.key];
+                  return (
+                    <td 
+                      key={`${feat.key}-${comp.name}`} 
+                      className={`p-4 sm:p-6 text-center ${
+                        comp.highlight 
+                          ? 'bg-cyan-950/20 border-x border-cyan-500/20 shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]' 
+                          : ''
+                      }`}
+                    >
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        {data.value ? (
+                          <div className={`p-1.5 rounded-full ${comp.highlight ? 'bg-cyan-500/20 text-cyan-400' : 'bg-zinc-800 text-zinc-300'}`}>
+                            <Check className="w-5 h-5" />
+                          </div>
+                        ) : (
+                          <div className="p-1.5 rounded-full bg-zinc-900 text-zinc-600">
+                            <X className="w-5 h-5" />
+                          </div>
+                        )}
+                        <span className={`text-sm font-medium ${comp.highlight ? 'text-cyan-100' : 'text-zinc-400'}`}>
+                          {data.label}
+                        </span>
+                      </div>
+                    </td>
+                  );
+                })}
+              </motion.tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </motion.div>
     </div>
   );
 }

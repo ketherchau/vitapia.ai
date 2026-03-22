@@ -1,40 +1,54 @@
 "use client";
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-const data = [
+const dataTAM = [
   {
     name: 'TAM',
     fullName: 'Total Addressable Market',
-    value: 100, // in Billions
+    value: 100, 
     label: '$100B+',
     description: 'Global market research industry',
-    color: '#3b82f6', // blue
-  },
+    fill: '#06b6d4',
+    opacity: 0.2,
+  }
+];
+
+const dataSAM = [
   {
     name: 'SAM',
     fullName: 'Serviceable Available Market',
-    value: 20, // in Billions
+    value: 20,
     label: '$20B+',
     description: 'Asia market research segment',
-    color: '#10b981', // green
-  },
+    fill: '#06b6d4',
+    opacity: 0.5,
+  }
+];
+
+const dataSOM = [
   {
     name: 'SOM',
     fullName: 'Serviceable Obtainable Market',
-    value: 1.5, // in Billions (estimated realistic value for scale)
+    value: 1.5,
     label: '$1.5B+',
     description: 'HK/GBA FMCG brands, agencies, public policy',
-    color: '#06b6d4', // cyan
-  },
+    fill: '#10b981',
+    opacity: 0.9,
+  }
 ];
 
-const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { payload: { name: string; fullName: string; label: string; description: string } }[] }) => {
+type CustomTooltipProps = {
+  active?: boolean;
+  payload?: { payload: { name: string; fullName: string; label: string; description: string } }[];
+};
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="p-4 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl backdrop-blur-md">
+      <div className="p-4 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl backdrop-blur-md z-50">
         <p className="text-white font-bold text-lg mb-1">{data.name} - {data.fullName}</p>
         <p className="text-[#00E5FF] font-black text-2xl mb-2">{data.label}</p>
         <p className="text-zinc-400 text-sm">{data.description}</p>
@@ -44,42 +58,91 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { payl
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const renderCustomLabel = (props: any) => {
+  const { cx, cy, innerRadius, outerRadius, payload } = props;
+  const radius = innerRadius + (outerRadius - innerRadius) / 2;
+  return (
+    <text 
+      x={cx} 
+      y={cy - radius} 
+      fill="#fff" 
+      textAnchor="middle" 
+      dominantBaseline="central" 
+      className="text-sm font-bold drop-shadow-md pointer-events-none"
+    >
+      {payload?.name} ({payload?.label})
+    </text>
+  );
+};
+
 export default function MarketValuationChart() {
   return (
-    <div className="w-full h-[400px] mt-12 bg-zinc-950/50 rounded-3xl border border-zinc-800 p-6 backdrop-blur-md shadow-2xl">
+    <div className="w-full h-[400px] mt-12 bg-zinc-950/50 rounded-3xl border border-zinc-800 p-6 backdrop-blur-md shadow-2xl relative">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={data}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" vertical={false} />
-          <XAxis 
-            dataKey="name" 
-            stroke="#a1a1aa" 
-            tick={{ fill: '#a1a1aa', fontSize: 16, fontWeight: 'bold' }}
-            tickLine={false}
-            axisLine={false}
-            dy={10}
-          />
-          <YAxis 
-            stroke="#a1a1aa" 
-            tick={{ fill: '#a1a1aa' }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `$${value}B`}
-          />
-          <Tooltip cursor={{ fill: '#27272a', opacity: 0.4 }} content={<CustomTooltip />} />
-          <Bar dataKey="value" radius={[8, 8, 0, 0]} animationDuration={1500}>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+        <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <Tooltip content={<CustomTooltip />} wrapperStyle={{ zIndex: 100 }} />
+          
+          <Pie
+            data={dataTAM}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius="70%"
+            outerRadius="90%"
+            startAngle={90}
+            endAngle={-270}
+            stroke="none"
+            labelLine={false}
+            label={renderCustomLabel}
+            isAnimationActive={true}
+          >
+            {dataTAM.map((entry, index) => (
+              <Cell key={`cell-tam-${index}`} fill={entry.fill} fillOpacity={entry.opacity} />
             ))}
-          </Bar>
-        </BarChart>
+          </Pie>
+
+          <Pie
+            data={dataSAM}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius="45%"
+            outerRadius="65%"
+            startAngle={90}
+            endAngle={-270}
+            stroke="none"
+            labelLine={false}
+            label={renderCustomLabel}
+            isAnimationActive={true}
+          >
+            {dataSAM.map((entry, index) => (
+              <Cell key={`cell-sam-${index}`} fill={entry.fill} fillOpacity={entry.opacity} />
+            ))}
+          </Pie>
+
+          <Pie
+            data={dataSOM}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius="20%"
+            outerRadius="40%"
+            startAngle={90}
+            endAngle={-270}
+            stroke="none"
+            labelLine={false}
+            label={renderCustomLabel}
+            isAnimationActive={true}
+          >
+            {dataSOM.map((entry, index) => (
+              <Cell key={`cell-som-${index}`} fill={entry.fill} fillOpacity={entry.opacity} />
+            ))}
+          </Pie>
+        </PieChart>
       </ResponsiveContainer>
     </div>
   );

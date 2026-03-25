@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Analytics } from "@vercel/analytics/next"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, color } from "framer-motion";
 import Image from "next/image";
 import ParticleSwarm from "@/components/ParticleSwarm";
 import ScrollShape from "@/components/ScrollShape";
@@ -423,7 +423,7 @@ export default function Home() {
           </section>
 
           {/* Section 7: Market Opportunity */}
-          <section className="py-32 px-6 bg-black/60 backdrop-blur-lg border-y border-zinc-900 text-center">
+          <section className="py-24 px-6 bg-black/60 backdrop-blur-lg border-y border-zinc-900 text-center">
             <motion.div {...fadeUpConfig} className="max-w-5xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-shadow-hard mb-16">A <span className="text-[#00E5FF]">US$20B+</span> Market Ready for Disruption.</h2>
               <MarketValuationChart />
@@ -524,26 +524,26 @@ export default function Home() {
               {
                 name: "KETHER CHAU",
                 role: "CEO & Technical Co-Founder",
-                bio: "Visionary behind the Vitapia prediction engine. Deep expertise in LLM orchestration and translating complex behavioral architectures into scalable enterprise solutions.",
+                bio: "Visionary behind the Vitapia prediction engine. Bringing a rigorous background from HSBC and Crypto.com, Kether possesses deep expertise in high-concurrency systems and the orchestration of large-scale Large Language Models (LLMs). <br/><br/> His experience in highly regulated financial sectors ensures that Vitapia.ai is built with the security, auditability, and data integrity required by enterprise clients.",
                 image: "https://media.licdn.com/dms/image/v2/D5603AQEqysKrmJxZ4w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1681297646774?e=1775692800&v=beta&t=S-w30eWOpSOT3py9woroNkpP97rCR6M9K98gIRpLDj4",
                 color: "from-[#00E5FF]/20",
-                pastExperience: "Ex-Tencent, AWS"
+                pastExperience: "Entrepreneur, Ex-HSBC, Ex-Crypto.com",
               },
               {
-                name: "JOLIN NG",
+                name: "RAIN NG",
                 role: "CMO & Co-Founder",
-                bio: "Venture builder with proven experience launching startups and scaling enterprise growth. Combines a deep understanding of go-to-market, partnership strategy, and community building to bridge technology and real-world impact across diverse markets.",
+                bio: "Venture builder with proven experience launching startups and scaling enterprise growth. Over 15 years of experience in the marketing industry, holding leadership roles within top-tier agencies. <br/><br/> She has managed monthly ad budgets exceeding $120,000 on Meta and YouTube and has collaborated with global brands including L’Oréal Paris, Sony, PlayStation, 3M, and LG.",
                 image: "https://media.licdn.com/dms/image/v2/C4E03AQFU_K1q0Uookg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1517532686884?e=1775692800&v=beta&t=z3sCpMb_0lfPJH8Z6VcqvutlMi3iODmuy31EJbHk9Jw",
                 color: "from-[#00FF85]/20",
-                pastExperience: "Ex-Ogilvy, HKSTP"
+                pastExperience: "Entrepreneur, Ex-Perfect Medical",
               },
               {
                 name: "JOSEPH CHENG",
                 role: "CTO & AI Co-Founder",
-                bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. Builds the ETL pipelines bridging messy reality with synthetic logic.",
+                bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. <br/><br/> A seasoned Software Engineer and ML enthusiast with a background at Gogovan (GogoX)—one of Hong Kong’s premier tech success stories. <br/><br/> Joseph brings the 'Unicorn-scale' engineering mindset required to handle millions of simultaneous AI agents.",
                 image: "https://media.licdn.com/dms/image/v2/C5603AQF1pt-pc8rO-w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1598077113377?e=1775692800&v=beta&t=_6yz93TiJQj4iqvh-aqS-e0iwHvaMgDiNQ0CITTtBZs",
                 color: "from-[#00E5FF]/20",
-                pastExperience: "Ex-Google, Microsoft"
+                pastExperience: "Entrepreneur, Ex-GogoX"
               }
             ].map((member, i) => (
               <motion.div
@@ -568,7 +568,7 @@ export default function Home() {
                     <Building2 className="w-3 h-3 text-[#00E5FF]" /> {member.pastExperience}
                   </span>
                 </div>
-                <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">{member.bio}</p>
+                <p className="text-zinc-400 leading-relaxed mb-6 flex-grow" dangerouslySetInnerHTML={{ __html: member.bio }}></p>
                 <div className="flex gap-4 opacity-50 group-hover:opacity-100 transition-opacity">
                   <a href="#" className="p-2 rounded-full bg-zinc-800 hover:bg-[#00E5FF]/20 hover:text-[#00E5FF] transition-colors"><Linkedin className="w-5 h-5" /></a>
                   <a href="#" className="p-2 rounded-full bg-zinc-800 hover:bg-[#00FF85]/20 hover:text-[#00FF85] transition-colors"><Github className="w-5 h-5" /></a>
@@ -579,7 +579,7 @@ export default function Home() {
         </section>
 
         {/* Section 8.7: Roadmap & Milestones */}
-        {/* TODO: Add team section back later 
+        {/* TODO: Add team section back later */}
         <section className="min-h-screen py-32 px-6 bg-black relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00FF85]/5 blur-[120px] rounded-full pointer-events-none" />
           
@@ -596,8 +596,8 @@ export default function Home() {
                 {
                   phase: "Phase 1: Foundation",
                   time: "Months 1-2",
-                  title: "Engine Scaling & Persistent Memory",
-                  desc: "Transition the core orchestrator to AWS elastic clusters. Scale the synthetic population from N=100 to N=10,000 concurrent agents. Integrate Vector Databases (Milvus) to give agents long-term contextual memory.",
+                  title: "Commercial Beta Launch + Validation & Calibration",
+                  desc: "Official Public Beta Release: Open the self-service dashboard to the first cohort of 20 whitelisted users. Integrate Stripe API for live credit purchasing. Deploy the 'HK-Brain' SLM (Small Language Model) on AWS production environment. Onboard two local Hong Kong FMCG (Fast-Moving Consumer Goods) brands. Ingest their historical CRM data to spawn highly customized, hyper-local consumer segments. Run blind predictive scenarios against their upcoming product launches.",
                   icon: Database,
                   color: "text-[#00E5FF]",
                   bg: "bg-[#00E5FF]/10",
@@ -606,9 +606,9 @@ export default function Home() {
                 {
                   phase: "Phase 2: Validation",
                   time: "Months 3-4",
-                  title: "B2B Enterprise Pilot Programs",
-                  desc: "Onboard two local Hong Kong FMCG (Fast-Moving Consumer Goods) brands. Ingest their historical CRM data to spawn highly customized, hyper-local consumer segments. Run blind predictive scenarios against their upcoming product launches.",
-                  icon:
+                  title: "Enterprise API Deployment + Social Social Logic Expansion",
+                  desc: "Product Launch Fulfillment: Officially release the Programmatic REST API for bulk enterprise usage. Documentation finalized for external developers. Onboard the first Tier-1 Marketing Agency as a pilot partner for a live campaign simulation. Temporal Knowledge Graph Integration: Activate the Neo4j-powered 'Network Contagion' feature, allowing clients to simulate word-of-mouth and social proof ripples across 500,000+ synthetic nodes.",
+                  icon: BrainCircuit,
                   color: "text-[#00FF85]",
                   bg: "bg-[#00FF85]/10",
                   border: "border-[#00FF85]/30"
@@ -616,8 +616,8 @@ export default function Home() {
                 {
                   phase: "Phase 3: Expansion",
                   time: "Month 5",
-                  title: "Macro-Economic Forecasting Module",
-                  desc: "Expand the simulation engine beyond simple retail surveys. Deploy multi-variable physics engines to simulate city development impacts (e.g., foot traffic changes from a new MTR station, or district-level inflation resilience).",
+                  title: "GBA Market Expansion",
+                  desc: "Cross-Border Scaling: Ingest demographic datasets for Shenzhen and Guangzhou. Successfully run the first cross-city 'Greater Bay Area Consumer Sentiment' report for a multi-national FMCG client.",
                   icon: LineChart,
                   color: "text-[#00E5FF]",
                   bg: "bg-[#00E5FF]/10",
@@ -626,9 +626,9 @@ export default function Home() {
                 {
                   phase: "Phase 4: Domination",
                   time: "Month 6",
-                  title: "CIP Acceleration",
-                  desc: "Publish the verified pilot results. Finalize PDPO compliance audits. Pitch the fully scaled Enterprise SaaS platform at Demo Day, securing seed funding and transition into the Incubation Programme.",
-                  icon:
+                  title: "Product Maturity & Growth",
+                  desc: "Full Commercial Release: Transition from Beta to v1.0. Achieve a milestone of 10+ paying corporate entities. Complete a 'Social Impact Report' demonstrating how our synthetic data protects PDPO privacy while providing actionable urban insights.",
+                  icon: ArrowRight,
                   color: "text-[#00FF85]",
                   bg: "bg-[#00FF85]/10",
                   border: "border-[#00FF85]/30"
@@ -664,7 +664,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        */}
+        {/* */}
 
         {/* Section 9: Social Responsibility */}
           <section className="py-32 px-6 bg-gradient-to-t from-black to-transparent text-center relative z-10">

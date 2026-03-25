@@ -78,9 +78,9 @@ const renderCustomLabel = (props: any) => {
 
 export default function MarketValuationChart() {
   return (
-    <div className="w-full h-[400px] mt-12 bg-zinc-950/50 rounded-3xl border border-zinc-800 p-6 backdrop-blur-md shadow-2xl relative">
+    <div className="w-full h-[480px] mt-6 bg-zinc-950/50 rounded-3xl border border-zinc-800 p-6 backdrop-blur-md shadow-2xl relative">
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+        <PieChart margin={{ top: 3, right: 3, bottom: 3, left: 3 }}>
           <Tooltip content={<CustomTooltip />} wrapperStyle={{ zIndex: 100 }} />
           
           <Pie
@@ -89,8 +89,8 @@ export default function MarketValuationChart() {
             nameKey="name"
             cx="50%"
             cy="50%"
-            innerRadius="70%"
-            outerRadius="90%"
+            innerRadius="75%"
+            outerRadius="95%"
             startAngle={90}
             endAngle={-270}
             stroke="none"
@@ -109,8 +109,8 @@ export default function MarketValuationChart() {
             nameKey="name"
             cx="50%"
             cy="50%"
-            innerRadius="45%"
-            outerRadius="65%"
+            innerRadius="50%"
+            outerRadius="70%"
             startAngle={90}
             endAngle={-270}
             stroke="none"
@@ -129,8 +129,8 @@ export default function MarketValuationChart() {
             nameKey="name"
             cx="50%"
             cy="50%"
-            innerRadius="20%"
-            outerRadius="40%"
+            innerRadius="25%"
+            outerRadius="45%"
             startAngle={90}
             endAngle={-270}
             stroke="none"

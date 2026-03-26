@@ -14,6 +14,7 @@ export default function ReportDetail() {
 
   const [sim, setSim] = useState<Record<string, unknown> | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [activeChartTab, setActiveChartTab] = useState<number>(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -168,8 +169,28 @@ export default function ReportDetail() {
         <h3 className="text-2xl font-bold text-white mb-2">Behavioral Matrix Analysis</h3>
         <p className="text-zinc-400 mb-8 print:hidden">Interact with the 3D data structure to view how different demographics voted.</p>
         
+        {((sim.questions as Array<Record<string, unknown>>)?.length > 1) && (
+          <div className="flex flex-wrap gap-2 mb-6 relative z-10">
+            {(sim.questions as Array<Record<string, unknown>>).map((q, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveChartTab(idx)}
+                className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors border ${
+                  activeChartTab === idx 
+                    ? "bg-[#00E5FF]/20 border-[#00E5FF] text-[#00E5FF]" 
+                    : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white"
+                }`}
+              >
+                Question {idx + 1}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="w-full h-[500px] relative bg-black/40 border border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
-          <SimulationChart3D responses={responses} />
+          <SimulationChart3D 
+            responses={responses.filter((r: Record<string, unknown>) => !r.q_id || r.q_id === (sim.questions as Array<Record<string, unknown>>)?.[activeChartTab]?.q_id)} 
+          />
         </div>
       </motion.div>
 

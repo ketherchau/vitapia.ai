@@ -6,6 +6,7 @@ import { ArrowLeft, Download, Info, CheckCircle2, TrendingUp, Users, Database, C
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SimulationChart3D from "@/components/SimulationChart3D";
+import ReactMarkdown from "react-markdown";
 
 export default function ReportDetail() {
   const pathname = usePathname();
@@ -197,19 +198,14 @@ export default function ReportDetail() {
           </section>
 
           <section>
-            <h4 className="text-lg font-bold text-[#8B5CF6] mb-2 border-b border-zinc-800 pb-2">3. Data Analysis & Insights</h4>
-            <div className="bg-black/40 p-5 rounded-xl border border-zinc-800/50 mt-2">
-              <p className="text-zinc-300 text-sm whitespace-pre-wrap leading-relaxed">
-                {String(sim.final_report || "Final aggregated insights are pending generation.")}
-              </p>
+            <h4 className="text-lg font-bold text-[#8B5CF6] mb-2 border-b border-zinc-800 pb-2">3. Deep Generative Analysis & Recommendations</h4>
+            <div className="bg-black/40 p-6 rounded-xl border border-zinc-800/50 mt-4 prose prose-invert max-w-none prose-h2:text-[#00E5FF] prose-h3:text-[#00FF85] prose-a:text-[#EC4899]">
+              {sim.final_report ? (
+                <ReactMarkdown>{String(sim.final_report)}</ReactMarkdown>
+              ) : (
+                <p className="text-zinc-500 italic">Final aggregated insights are pending generation...</p>
+              )}
             </div>
-          </section>
-
-          <section>
-            <h4 className="text-lg font-bold text-[#EC4899] mb-2 border-b border-zinc-800 pb-2">4. Recommendations & Conclusion</h4>
-            <p className="text-zinc-300 text-sm leading-relaxed">
-              Based on the behavioral matrix and narrative rationales provided by the swarm, we recommend aligning product positioning strongly with the {topChoice} demographic drivers. Price sensitivity and district-level variances heavily influenced the lower-performing options. Adjusting market strategies to reflect the primary agent reasoning patterns will likely yield the highest conversion rates.
-            </p>
           </section>
         </div>
       </motion.div>

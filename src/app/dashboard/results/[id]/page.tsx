@@ -115,9 +115,27 @@ export default function ReportDetail() {
         transition={{ delay: 0.1 }}
         className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10"
       >
-        <div className="lg:col-span-2 p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/30 print:bg-white">
-          <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Background Scenario</h3>
-          <p className="text-sm text-zinc-300 print:text-gray-800 whitespace-pre-wrap leading-relaxed">{String(sim.scenario_prompt || "No scenario provided.")}</p>
+        <div className="lg:col-span-2 p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/30 print:bg-white flex flex-col">
+          <div className="flex-1">
+            <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Background Scenario</h3>
+            <p className="text-sm text-zinc-300 print:text-gray-800 whitespace-pre-wrap leading-relaxed">{String(sim.scenario_prompt || "No scenario provided.")}</p>
+          </div>
+          
+          {(sim.filters && Object.keys(sim.filters).length > 0) && (
+            <div className="mt-8 pt-6 border-t border-zinc-800 print:border-gray-200">
+              <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Target Audience Filters</h3>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(sim.filters as Record<string, string>).map(([key, value]) => {
+                  if (!value || value === "All") return null;
+                  return (
+                    <div key={key} className="px-3 py-1.5 rounded-lg bg-[#00FF85]/10 border border-[#00FF85]/20 text-[#00FF85] text-xs font-bold capitalize">
+                      <span className="opacity-60 mr-1">{key}:</span> {value}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
         <div className="p-6 rounded-2xl border border-zinc-800 print:border-gray-300 bg-zinc-900/30 print:bg-white">
           <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Survey Question</h3>

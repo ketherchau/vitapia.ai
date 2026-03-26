@@ -7,6 +7,7 @@ export interface ISimulation extends Document {
   audience_profile: string; // E.g. "HK Baseline (1000)"
   status: "Pending" | "Running" | "Completed" | "Failed";
   scenario_prompt: string;
+  filters?: Record<string, string>;
   questions: Array<{
     q_id: string;
     text: string;
@@ -35,6 +36,7 @@ const SimulationSchema: Schema = new Schema(
     audience_profile: { type: String, required: true },
     status: { type: String, enum: ["Pending", "Running", "Completed", "Failed"], default: "Pending" },
     scenario_prompt: { type: String, required: true },
+    filters: { type: Schema.Types.Mixed },
     questions: [
       {
         q_id: { type: String, required: true },

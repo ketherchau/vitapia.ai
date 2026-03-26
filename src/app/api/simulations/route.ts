@@ -48,6 +48,7 @@ export async function POST(request: Request) {
       audience_profile: `${audienceDesc} (${num_agents} Agents)`,
       status: "Running",
       scenario_prompt: body.scenarioPrompt || "Default scenario parameters",
+      filters,
       questions: body.questions || [],
       cost_credits,
     });

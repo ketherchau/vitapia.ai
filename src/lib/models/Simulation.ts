@@ -57,8 +57,13 @@ const SimulationSchema: Schema = new Schema(
       ]
     },
     cost_credits: { type: Number, required: true },
+    final_report: { type: String },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "completed_at" } }
 );
+
+if (process.env.NODE_ENV === 'development') {
+  delete mongoose.models.Simulation;
+}
 
 export default mongoose.models.Simulation || mongoose.model<ISimulation>("Simulation", SimulationSchema);

@@ -121,7 +121,7 @@ export default function ReportDetail() {
             <p className="text-sm text-zinc-300 print:text-gray-800 whitespace-pre-wrap leading-relaxed">{String(sim.scenario_prompt || "No scenario provided.")}</p>
           </div>
           
-          {(sim.filters && Object.keys(sim.filters).length > 0) && (
+          {((sim.filters as Record<string, string>) ? Object.values(sim.filters as Record<string, string>).some(v => v && v !== "All") : false) && (
             <div className="mt-8 pt-6 border-t border-zinc-800 print:border-gray-200">
               <h3 className="text-sm font-bold text-zinc-400 print:text-gray-500 uppercase tracking-widest mb-4">Target Audience Filters</h3>
               <div className="flex flex-wrap gap-2">

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Users, Zap, Plus, Trash2, ShieldAlert, ArrowRight, PlusCircle } from "lucide-react";
+import { ArrowLeft, Users, Zap, Plus, Trash2, ArrowRight, PlusCircle } from "lucide-react";
 import Link from "next/link";
+import { useNotification } from "@/components/providers/NotificationProvider";
 
 export default function NewSimulation() {
+  const { showNotification } = useNotification();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
@@ -62,7 +64,7 @@ export default function NewSimulation() {
 
   const handleLaunch = async () => {
     if (!projectName || !scenarioPrompt || questions.some(q => !q.text || q.options.some(opt => !opt))) {
-      alert("Please fill out all fields before launching.");
+      showNotification("Missing Fields", "Please fill out all fields before launching.", "error");
       return;
     }
 
@@ -90,13 +92,13 @@ export default function NewSimulation() {
       });
 
       if (res.ok) {
-        alert("Pulse Check Simulation Launched! The orchestrator is spinning up 1,000 agents.");
+        showNotification("Success", "Pulse Check Simulation Launched! The orchestrator is spinning up 1,000 agents.", "success");
         window.location.href = "/dashboard";
       } else {
-        alert("Failed to launch simulation.");
+        showNotification("Error", "Failed to launch simulation.", "error");
       }
     } catch {
-      alert("Network error.");
+      showNotification("Error", "Network error.", "error");
     } finally {
       setIsLoading(false);
     }
@@ -163,7 +165,7 @@ export default function NewSimulation() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold text-white mb-1">Hong Kong Census Demographics</h4>
-                    <p className="text-sm text-zinc-400">Filter your 1,000 synthetic agents. Selecting "All" mirrors the baseline population naturally.</p>
+                    <p className="text-sm text-zinc-400">Filter your 1,000 synthetic agents. Selecting &quot;All&quot; mirrors the baseline population naturally.</p>
                   </div>
                 </div>
 

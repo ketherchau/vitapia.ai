@@ -22,8 +22,28 @@ export async function POST(request: Request) {
     }
 
     const user_id = user.user_id;
-    // Allow external API callers to specify agent count, fallback to 100
+    
+    const isPro = ["Professional", "Enterprise"].includes(user.plan || "Free");
+    const filters = body.audienceFilters || {};
+    const questions = body.questions || [];
     const num_agents = body.num_agents || 100;
+
+    // Enforce Plan Limits
+    if (!isPro) {
+      if (Object.values(filters).some(v => v && v !== "All")) {
+        return NextResponse.json({ error: "Demographic filtering requires a Professional plan" }, { status: 403 });
+      }
+      if (questions.length > 3) {
+        return NextResponse.json({ error: "Free/Starter plans are limited to 3 questions" }, { status: 403 });
+      }
+      if (num_agents > 1000 && user.plan === "Free") {
+        return NextResponse.json({ error: "Free plans are limited to 1,000 agents" }, { status: 403 });
+      }
+      if (num_agents > 5000 && user.plan === "Starter") {
+        return NextResponse.json({ error: "Starter plans are limited to 5,000 agents" }, { status: 403 });
+      }
+    }
+
     const cost_credits = num_agents; // 1 credit = 1 agent
 
     // 1. Check and deduct credits
@@ -37,7 +57,6 @@ export async function POST(request: Request) {
     // 2. Generate a random SIM-XXXX ID
     const sim_id = `SIM-${Math.floor(1000 + Math.random() * 9000)}`;
     
-    const filters = body.audienceFilters || {};
     const isTargeted = filters.age || filters.gender || filters.district;
     const audienceDesc = isTargeted ? "Targeted Demographic" : "HK Baseline";
     

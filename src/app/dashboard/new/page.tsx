@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Users, Zap, Plus, Trash2, ArrowRight, PlusCircle } from "lucide-react";
+import { ArrowLeft, Users, Zap, Plus, Trash2, ArrowRight, PlusCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useNotification } from "@/components/providers/NotificationProvider";
 
@@ -10,6 +10,7 @@ export default function NewSimulation() {
   const { showNotification } = useNotification();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [userPlan, setUserPlan] = useState("Free");
   const [projectName, setProjectName] = useState("");
   const [scenarioPrompt, setScenarioPrompt] = useState("");
   const [targetAge, setTargetAge] = useState("All");
@@ -21,6 +22,34 @@ export default function NewSimulation() {
   const [questions, setQuestions] = useState([
     { id: 1, text: "", options: ["", ""] }
   ]);
+
+  useEffect(() => {
+    fetch("/api/user")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.user) {
+          setUserPlan(data.user.plan);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const isPro = ["Professional", "Enterprise"].includes(userPlan);
+
+  const handleAIDraft = () => {
+    if (!isPro) {
+      showNotification("Upgrade Required", "Survey AI Draft is a Professional tier feature.", "error");
+      return;
+    }
+    setProjectName("Hong Kong Tech Adoption 2026");
+    setScenarioPrompt("We are launching a new consumer AI wearable device priced at HK$1,500. The device replaces smartphones for daily tasks and uses voice commands and holographic projection. Competitors include standard smartwatches and premium smartphones.");
+    setQuestions([
+      { id: 1, text: "How likely are you to purchase a dedicated AI wearable that replaces your smartphone?", options: ["Very likely", "Somewhat likely", "Not sure", "Unlikely", "Definitely not"] },
+      { id: 2, text: "What is your primary concern regarding a holographic AI wearable?", options: ["Privacy and data security", "Battery life", "Social awkwardness", "Price is too high"] },
+      { id: 3, text: "Would you prefer a subscription model (HK$100/mo) or a one-time purchase (HK$1,500)?", options: ["Subscription", "One-time purchase", "Neither"] }
+    ]);
+    showNotification("Magic Draft Applied", "AI has generated a premium scenario and question set for you.", "success");
+  };
 
   const addOption = (qId: number) => {
     setQuestions(questions.map(q => {
@@ -43,7 +72,11 @@ export default function NewSimulation() {
   };
 
   const addQuestion = () => {
-    if (questions.length < 3) {
+    if (!isPro && questions.length >= 3) {
+      showNotification("Upgrade Required", "Free/Starter plans are limited to 3 questions. Upgrade to Professional for unlimited survey questions.", "error");
+      return;
+    }
+    if (questions.length < (isPro ? 20 : 3)) {
       setQuestions([...questions, { id: Date.now(), text: "", options: ["", ""] }]);
     }
   };
@@ -165,9 +198,16 @@ export default function NewSimulation() {
                   <div className="w-12 h-12 rounded-full bg-[#00FF85]/20 flex items-center justify-center text-[#00FF85] shrink-0">
                     <Users className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-white mb-1">Hong Kong Census Demographics</h4>
-                    <p className="text-sm text-zinc-400">Filter your {agentCount.toLocaleString()} synthetic agents. Selecting &quot;All&quot; mirrors the baseline population naturally.</p>
+                  <div className="flex-1 flex justify-between items-start">
+                    <div>
+                      <h4 className="text-xl font-bold text-white mb-1">Hong Kong Census Demographics</h4>
+                      <p className="text-sm text-zinc-400">Filter your {agentCount.toLocaleString()} synthetic agents. Selecting &quot;All&quot; mirrors the baseline population naturally.</p>
+                    </div>
+                    {!isPro && (
+                      <div className="px-3 py-1 rounded-full bg-[#8B5CF6]/20 border border-[#8B5CF6]/50 text-[#8B5CF6] text-[10px] font-black uppercase tracking-widest cursor-pointer" onClick={() => showNotification("Upgrade Required", "Demographic filtering is a Professional tier feature.", "info")}>
+                        PRO Feature
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -176,7 +216,14 @@ export default function NewSimulation() {
                     <label className="text-xs font-bold text-[#00E5FF] uppercase">Synthetic Agents</label>
                     <select 
                       value={agentCount} 
-                      onChange={(e) => setAgentCount(Number(e.target.value))} 
+                      onChange={(e) => {
+                        const val = Number(e.target.value);
+                        if (!isPro && val > 1000 && userPlan !== "Starter") {
+                          showNotification("Upgrade Required", "Free plans are limited to 1,000 agents. Starter plans allow up to 5,000. Upgrade to Pro for 50,000+.", "error");
+                          return;
+                        }
+                        setAgentCount(val);
+                      }} 
                       className="w-full bg-[#00E5FF]/10 border border-[#00E5FF]/50 rounded-xl px-4 py-3 text-[#00E5FF] font-bold focus:outline-none appearance-none cursor-pointer"
                     >
                       <option value={100} className="bg-zinc-900">100 Agents</option>
@@ -190,9 +237,10 @@ export default function NewSimulation() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">Age Bracket</label>
                     <select 
+                      disabled={!isPro}
                       value={targetAge} 
                       onChange={(e) => setTargetAge(e.target.value)} 
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="All">All Ages</option>
                       <option value="18-24">18-24</option>
@@ -207,9 +255,10 @@ export default function NewSimulation() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">Gender</label>
                     <select 
+                      disabled={!isPro}
                       value={targetGender} 
                       onChange={(e) => setTargetGender(e.target.value)} 
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="All">All Genders</option>
                       <option value="Male">Male</option>
@@ -220,9 +269,10 @@ export default function NewSimulation() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">District</label>
                     <select 
+                      disabled={!isPro}
                       value={targetDistrict} 
                       onChange={(e) => setTargetDistrict(e.target.value)} 
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="All">All Districts</option>
                       <option value="Hong Kong Island">Hong Kong Island</option>
@@ -234,9 +284,10 @@ export default function NewSimulation() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">Household Income (HKD)</label>
                     <select 
+                      disabled={!isPro}
                       value={targetIncome} 
                       onChange={(e) => setTargetIncome(e.target.value)} 
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="All">All Income Brackets</option>
                       <option value="<10k">Under $10,000</option>
@@ -250,9 +301,10 @@ export default function NewSimulation() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">Housing Type</label>
                     <select 
+                      disabled={!isPro}
                       value={targetHousing} 
                       onChange={(e) => setTargetHousing(e.target.value)} 
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00FF85] appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="All">All Housing</option>
                       <option value="Private Permanent">Private Permanent</option>
@@ -266,7 +318,15 @@ export default function NewSimulation() {
             </div>
 
             <div className="space-y-4">
-              <label className="text-sm font-bold uppercase tracking-widest text-zinc-400">Background Scenario Prompt</label>
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-bold uppercase tracking-widest text-zinc-400">Background Scenario Prompt</label>
+                <button 
+                  onClick={handleAIDraft}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#8B5CF6]/20 to-[#EC4899]/20 border border-[#8B5CF6]/50 text-white text-xs font-bold hover:scale-105 transition-transform shadow-[0_0_10px_rgba(139,92,246,0.2)]"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#00E5FF]" /> Survey AI Draft (Pro)
+                </button>
+              </div>
               <p className="text-sm text-zinc-500">Describe the product, price, and context. The agents will read this before answering your questions.</p>
               <textarea 
                 rows={5} 

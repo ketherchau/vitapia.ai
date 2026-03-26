@@ -34,18 +34,22 @@ export default function ReportDetail() {
   }
 
   // Calculate top option choice dynamically
-  const responses = (sim.results as Record<string, unknown>)?.agent_responses as Array<{ choice: string }> || [];
+  const responses = (sim.results as Record<string, unknown>)?.agent_responses as Array<{ choice: string, q_id?: string }> || [];
+  
+  const currentQId = (sim.questions as Array<Record<string, unknown>>)?.[activeChartTab]?.q_id;
+  const filteredResponses = responses.filter((r) => !r.q_id || r.q_id === currentQId);
+
   const choiceCounts: Record<string, number> = {};
-  responses.forEach((r: { choice: string }) => {
+  filteredResponses.forEach((r: { choice: string }) => {
     choiceCounts[r.choice] = (choiceCounts[r.choice] || 0) + 1;
   });
   
   let topChoice = "N/A";
   let topPct = "0.0%";
-  if (responses.length > 0) {
+  if (filteredResponses.length > 0) {
     const sorted = Object.entries(choiceCounts).sort((a, b) => b[1] - a[1]);
     topChoice = sorted[0][0];
-    topPct = ((sorted[0][1] / responses.length) * 100).toFixed(1) + "%";
+    topPct = ((sorted[0][1] / filteredResponses.length) * 100).toFixed(1) + "%";
   }
 
   const handleDownloadCSV = () => {
@@ -73,8 +77,8 @@ export default function ReportDetail() {
     document.body.removeChild(link);
   };
 
-  const totalPages = Math.ceil(responses.length / itemsPerPage);
-  const currentVoices = responses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.ceil(filteredResponses.length / itemsPerPage);
+  const currentVoices = filteredResponses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="space-y-8 pb-32 max-w-6xl mx-auto print:max-w-none print:pb-0">
@@ -136,7 +140,7 @@ export default function ReportDetail() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
         {[
           { label: "Top Decision", value: topPct, sub: topChoice, icon: TrendingUp, color: "text-[#00E5FF]", printColor: "print:text-blue-600" },
-          { label: "Responses", value: responses.length.toString(), sub: "Synthetic Agents", icon: Info, color: "text-red-400", printColor: "print:text-red-600" },
+          { label: "Responses", value: filteredResponses.length.toString(), sub: "Synthetic Agents", icon: Info, color: "text-red-400", printColor: "print:text-red-600" },
           { label: "Statistical Accuracy", value: (sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD", sub: "Based on MAE", icon: CheckCircle2, color: "text-[#00FF85]", printColor: "print:text-green-600" },
           { label: "Target Demo Match", value: "1,000", sub: "HK Census Baseline", icon: Users, color: "text-zinc-300", printColor: "print:text-gray-800" }
         ].map((kpi, i) => (
@@ -207,7 +211,7 @@ export default function ReportDetail() {
           <section>
             <h4 className="text-lg font-bold text-[#00E5FF] mb-2 border-b border-zinc-800 pb-2">1. Executive Summary</h4>
             <p className="text-zinc-300 text-sm leading-relaxed">
-              This report details the findings from the Pulse Check Simulation ({String(sim.sim_id)}). With <strong>{responses.length.toLocaleString()} synthetic agents</strong> modeling the {String(sim.audience_profile)} demographic, the clear top decision was <strong>&quot;{topChoice}&quot;</strong>, capturing <strong>{topPct}</strong> of the distribution. The statistical accuracy based on MAE was {(sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD"}.
+              This report details the findings from the Pulse Check Simulation ({String(sim.sim_id)}). With <strong>{filteredResponses.length.toLocaleString()} synthetic agents</strong> modeling the {String(sim.audience_profile)} demographic, the clear top decision was <strong>&quot;{topChoice}&quot;</strong>, capturing <strong>{topPct}</strong> of the distribution. The statistical accuracy based on MAE was {(sim.results as Record<string, number>)?.accuracy_score ? `${(sim.results as Record<string, number>).accuracy_score.toFixed(1)}%` : "TBD"}.
             </p>
           </section>
 
@@ -239,7 +243,7 @@ export default function ReportDetail() {
         className="p-8 md:p-10 rounded-[2rem] border border-zinc-800 bg-zinc-900/30 shadow-lg relative print:break-before-page"
       >
         <h3 className="text-2xl font-bold text-white print:text-black mb-2">The Generative Analytics Pipeline</h3>
-        <p className="text-zinc-400 print:text-gray-600 mb-10">How Vitapia dynamically processes {responses.length.toLocaleString()} synthetic agents from origin to statistical insight.</p>
+        <p className="text-zinc-400 print:text-gray-600 mb-10">How Vitapia dynamically processes {filteredResponses.length.toLocaleString()} synthetic agents from origin to statistical insight.</p>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 relative">
           {/* connecting lines for desktop */}

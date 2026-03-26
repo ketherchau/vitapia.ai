@@ -17,6 +17,7 @@ export default function NewSimulation() {
   const [targetDistrict, setTargetDistrict] = useState("All");
   const [targetIncome, setTargetIncome] = useState("All");
   const [targetHousing, setTargetHousing] = useState("All");
+  const [agentCount, setAgentCount] = useState(1000);
   const [questions, setQuestions] = useState([
     { id: 1, text: "", options: ["", ""] }
   ]);
@@ -76,6 +77,7 @@ export default function NewSimulation() {
         body: JSON.stringify({
           projectName,
           scenarioPrompt,
+          num_agents: agentCount,
           audienceFilters: {
             age: targetAge !== "All" ? targetAge : null,
             gender: targetGender !== "All" ? targetGender : null,
@@ -92,7 +94,7 @@ export default function NewSimulation() {
       });
 
       if (res.ok) {
-        showNotification("Success", "Pulse Check Simulation Launched! The orchestrator is spinning up 1,000 agents.", "success");
+        showNotification("Success", `Pulse Check Simulation Launched! The orchestrator is spinning up ${agentCount.toLocaleString()} agents.`, "success");
         window.location.href = "/dashboard";
       } else {
         showNotification("Error", "Failed to launch simulation.", "error");
@@ -165,11 +167,26 @@ export default function NewSimulation() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold text-white mb-1">Hong Kong Census Demographics</h4>
-                    <p className="text-sm text-zinc-400">Filter your 1,000 synthetic agents. Selecting &quot;All&quot; mirrors the baseline population naturally.</p>
+                    <p className="text-sm text-zinc-400">Filter your {agentCount.toLocaleString()} synthetic agents. Selecting &quot;All&quot; mirrors the baseline population naturally.</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#00E5FF] uppercase">Synthetic Agents</label>
+                    <select 
+                      value={agentCount} 
+                      onChange={(e) => setAgentCount(Number(e.target.value))} 
+                      className="w-full bg-[#00E5FF]/10 border border-[#00E5FF]/50 rounded-xl px-4 py-3 text-[#00E5FF] font-bold focus:outline-none appearance-none cursor-pointer"
+                    >
+                      <option value={100} className="bg-zinc-900">100 Agents</option>
+                      <option value={500} className="bg-zinc-900">500 Agents</option>
+                      <option value={1000} className="bg-zinc-900">1,000 Agents</option>
+                      <option value={5000} className="bg-zinc-900">5,000 Agents</option>
+                      <option value={10000} className="bg-zinc-900">10,000 Agents</option>
+                    </select>
+                  </div>
+
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-zinc-500 uppercase">Age Bracket</label>
                     <select 

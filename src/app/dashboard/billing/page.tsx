@@ -55,7 +55,16 @@ function BillingContent() {
       price: "$499",
       credits: 50000,
       desc: "For mid-size agencies running multiple campaigns.",
-      features: ["50,000 Localized AI Agents/mo", "Advanced District Targeting", "PDF Reporting", "API Access", "Priority Support"],
+      features: [
+        "50,000 Localized AI Agents/mo", 
+        "Focus Groups Customize Range", 
+        "Survey AI Draft", 
+        "Unlimited Survey Questions", 
+        "Comprehensive Reports with 20+ metrics",
+        "Advanced District Targeting", 
+        "PDF Reporting", 
+        "API Access"
+      ],
       priceId: "price_mock_pro",
       popular: true,
       icon: Server

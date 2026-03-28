@@ -524,8 +524,8 @@ export default function Home() {
               {
                 name: "KETHER CHAU",
                 role: "CEO & Technical Co-Founder",
-                bio: "Visionary behind the Vitapia prediction engine. Bringing a rigorous background from HSBC and Crypto.com, Kether possesses deep expertise in high-concurrency systems and the orchestration of large-scale Large Language Models (LLMs). <br/><br/> His experience in highly regulated financial sectors ensures that Vitapia.ai is built with the security, auditability, and data integrity required by enterprise clients.",
-                image: "https://media.licdn.com/dms/image/v2/D5603AQEqysKrmJxZ4w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1681297646774?e=1775692800&v=beta&t=S-w30eWOpSOT3py9woroNkpP97rCR6M9K98gIRpLDj4",
+                bio: "Visionary behind the Vitapia prediction engine. Bringing a rigorous background from HSBC and Crypto.com, Kether possesses deep expertise with more than 10 years of experience in high-concurrency systems. <br/><br/> His experience in highly regulated financial sectors ensures that Vitapia.ai is built with the security, auditability, and data integrity required by enterprise clients.",
+                image: "/kether_profile.png",
                 color: "from-[#00E5FF]/20",
                 pastExperience: "Entrepreneur, Ex-HSBC, Ex-Crypto.com",
               },
@@ -533,15 +533,15 @@ export default function Home() {
                 name: "RAIN NG",
                 role: "CMO & Co-Founder",
                 bio: "Venture builder with proven experience launching startups and scaling enterprise growth. Over 15 years of experience in the marketing industry, holding leadership roles within top-tier agencies. <br/><br/> She has managed monthly ad budgets exceeding $120,000 on Meta and YouTube and has collaborated with global brands including L’Oréal Paris, Sony, PlayStation, 3M, and LG.",
-                image: "https://media.licdn.com/dms/image/v2/C4E03AQFU_K1q0Uookg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1517532686884?e=1775692800&v=beta&t=z3sCpMb_0lfPJH8Z6VcqvutlMi3iODmuy31EJbHk9Jw",
+                image: "/rain_profile.png",
                 color: "from-[#00FF85]/20",
                 pastExperience: "Entrepreneur, Ex-Perfect Medical",
               },
               {
                 name: "JOSEPH CHENG",
                 role: "CTO & AI Co-Founder",
-                bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. <br/><br/> A seasoned Software Engineer and ML enthusiast with a background at Gogovan (GogoX)—one of Hong Kong’s premier tech success stories. <br/><br/> Joseph brings the 'Unicorn-scale' engineering mindset required to handle millions of simultaneous AI agents.",
-                image: "https://media.licdn.com/dms/image/v2/C5603AQF1pt-pc8rO-w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1598077113377?e=1775692800&v=beta&t=_6yz93TiJQj4iqvh-aqS-e0iwHvaMgDiNQ0CITTtBZs",
+                bio: "Seasoned Software Engineer, ML / NLP enthusiast. Expert in demographic grounding and mathematical validation. <br/><br/> A seasoned Software Engineer and ML enthusiast with more than 16 years of experience in the tech industry, with a background at Gogovan (GogoX). <br/><br/> Joseph brings the 'Unicorn-scale' engineering mindset required to handle millions of simultaneous AI agents.",
+                image: "/joseph_profile.png",
                 color: "from-[#00E5FF]/20",
                 pastExperience: "Entrepreneur, Ex-GogoX"
               }
